@@ -1,4 +1,4 @@
-# 🪙 SuitPay Cursos — Ambiente de Testes (Laravel + Docker)
+# SuitPay Cursos — Ambiente de Testes (Laravel + Docker)
 
 Este projeto utiliza **Docker** para rodar a aplicação Laravel localmente, sem necessidade de instalar PHP, MySQL ou Nginx diretamente na sua máquina.
 
