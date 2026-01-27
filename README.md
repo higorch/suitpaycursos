@@ -20,6 +20,7 @@ Antes de começar, instale:
 git clone https://github.com/higorch/suitpaycursos.git
 cd suitpaycursos
 docker compose up -d
+```
 
 ## 🌐 Acessar a aplicação
 
