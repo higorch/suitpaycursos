@@ -7,7 +7,7 @@
    WRAPPER BASE
 ========================= */
 .suit-choices {
-    @apply relative w-full text-[#ffd6a3] outline-none;
+    @apply relative w-full text-[#111827] outline-none;
 }
 
 /* Remove outline azul padrão */
@@ -31,17 +31,17 @@
    CAMPO PRINCIPAL
 ========================= */
 .suit-choices .choices__inner {
-    @apply w-full min-h-12 rounded-lg border border-white/10 bg-black/30 px-4 py-2 text-sm text-[#ffd6a3] shadow-sm transition;
+    @apply w-full min-h-12 rounded-lg border border-[#E5E7EB] bg-white px-4 py-2 text-sm text-[#111827] shadow-sm transition;
 }
 
-/* FOCUS VISUAL BONITO */
+/* FOCUS VISUAL */
 .suit-choices.is-focused .choices__inner {
-    @apply ring-2 ring-[#ffd6a3]/30 border-[#ffd6a3]/40;
+    @apply ring-2 ring-[#2CAA2C]/30 border-[#2CAA2C]/40;
 }
 
 /* INPUT DIGITÁVEL */
 .suit-choices .choices__input {
-    @apply w-full m-0 p-1 bg-transparent text-[#ffd6a3] placeholder-[#ffd6a3]/40 outline-none;
+    @apply w-full m-0 p-1 bg-transparent text-[#111827] placeholder-[#9CA3AF] outline-none;
 }
 
 /* REMOVE SELECT ORIGINAL */
@@ -53,7 +53,7 @@
    DROPDOWN
 ========================= */
 .suit-choices .choices__list--dropdown {
-    @apply mt-2 rounded-md border border-[#ffd6a3]! bg-[#1f0d12] text-[#ffd6a3] shadow-2xl overflow-hidden z-50;
+    @apply mt-2 rounded-md border border-[#E5E7EB]! bg-white text-[#111827] shadow-2xl overflow-hidden z-50;
 }
 
 /* ITEM */
@@ -63,7 +63,7 @@
 
 /* HOVER */
 .suit-choices .choices__list--dropdown .choices__item--selectable.is-highlighted {
-    @apply bg-[#ffd6a3]/10 text-[#ffd6a3];
+    @apply bg-[#2CAA2C]/10 text-[#2CAA2C];
 }
 
 /* DISABLED */
@@ -75,26 +75,26 @@
    SELECT ONE TEXTO
 ========================= */
 .suit-choices .choices__list--single .choices__item {
-    @apply text-sm text-[#ffd6a3] pr-10 whitespace-nowrap overflow-hidden text-ellipsis;
+    @apply text-sm text-[#111827] pr-10 whitespace-nowrap overflow-hidden text-ellipsis;
 }
 
 /* =========================
    MULTI SELECT TAGS
 ========================= */
 .suit-choices .choices__list--multiple .choices__item {
-    @apply bg-[#ffd6a3]/10 text-[#ffd6a3] border border-[#ffd6a3]/30 rounded-md px-2 py-1 text-xs mr-1 mb-1;
+    @apply bg-[#2CAA2C]/10 text-[#2CAA2C] border border-[#2CAA2C]/30 rounded-md px-2 py-1 text-xs mr-1 mb-1;
 }
 
 /* BOTÃO REMOVER TAG (MULTI) */
 .suit-choices .choices__list--multiple .choices__item .choices__button {
-    @apply ml-1 text-[#ffd6a3]/60 hover:text-red-400 transition;
+    @apply ml-1 text-[#6B7280] hover:text-red-500 transition;
 }
 
 /* =========================
    PLACEHOLDER
 ========================= */
 .suit-choices .choices__placeholder {
-    @apply text-[#ffd6a3]/40;
+    @apply text-[#9CA3AF];
 }
 
 /* =========================
@@ -110,7 +110,7 @@
    SETA DROPDOWN
 ========================= */
 .suit-choices[data-type*="select-one"]::after {
-    @apply absolute right-4 top-1/2 -translate-y-1/2 text-[#ffd6a3]/60 pointer-events-none;
+    @apply absolute right-4 top-1/2 -translate-y-1/2 text-[#6B7280] pointer-events-none;
     content: "▾";
 }
 
@@ -120,153 +120,67 @@
 .suit-choices[data-type*="select-one"] .choices__button {
     @apply absolute right-8 top-1/2 indent-0! overflow-visible! text-[0px] bg-no-repeat bg-center -translate-y-1/2 w-4 h-4 cursor-pointer opacity-70 hover:opacity-100 transition;
     background-size: 16px 16px;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none' stroke='%23ffd6a3' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='M6 6l8 8M14 6l-8 8'/%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none' stroke='%236B7280' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='M6 6l8 8M14 6l-8 8'/%3E%3C/svg%3E");
 }
 .suit-choices[data-type*="select-one"] .choices__button:hover {
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none' stroke='%23ef4444' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='M6 6l8 8M14 6l-8 8'/%3E%3C/svg%3E");
 }
 
-/* Oculta X quando é placeholder */
 .suit-choices[data-type*="select-one"] .choices__placeholder .choices__button {
     @apply hidden;
 }
 
-
 @layer components {
 
-    /* input inputs */
     .label-input-basic {
-        @apply text-[11px] tracking-widest text-[#ffd6a3]/70 uppercase;
+        @apply text-[11px] tracking-widest text-[#6B7280] uppercase;
     }
+
     .input-basic {
-        @apply w-full h-11.5 p-2 box-border rounded-lg border border-white/10 bg-black/30 text-sm text-[#ffd6a3] placeholder-[#ffd6a3]/40 focus:border-[#ffd6a3]/40 focus:outline-none focus:ring-2 focus:ring-[#ffd6a3]/20;
+        @apply w-full h-11.5 p-2 box-border rounded-lg border border-[#E5E7EB] bg-white text-sm text-[#111827] placeholder-[#9CA3AF] focus:border-[#2CAA2C]/40 focus:outline-none focus:ring-2 focus:ring-[#2CAA2C]/20;
     }
 
-    /* input errors */
     .input-error {
-        @apply absolute left-0 right-0 bottom-0 h-11.5 p-2 leading-6 box-border rounded-lg border border-red-500/30 bg-red-700 text-xs font-semibold text-red-300 shadow-lg backdrop-blur-sm z-50;
-    }
-    .input-error::first-letter {
-        @apply uppercase;
-    }
-    .input-error.full {
-        @apply px-4 py-2 text-sm;
+        @apply absolute left-0 right-0 bottom-0 h-11.5 p-2 leading-6 box-border rounded-lg border border-red-500/30 bg-red-50 text-xs font-semibold text-red-600 shadow-lg backdrop-blur-sm z-50;
     }
 
-    /* ===== BASE ===== */
-    .alert {
-        @apply relative w-full rounded-lg border px-4 py-3 text-sm shadow-lg backdrop-blur-sm flex items-start gap-3;
-    }
-
-    .alert-icon {
-        @apply text-lg leading-none mt-0.5;
-    }
-
-    .alert-content {
-        @apply flex-1 leading-relaxed;
-    }
-
-    .alert-close {
-        @apply text-white/40 hover:text-white transition cursor-pointer text-sm;
-    }
-
-    /* ===== SUCCESS ===== */
-    .alert-success {
-        @apply border-emerald-500/30 bg-emerald-500/10 text-emerald-300;
-    }
-    .alert-success .alert-icon {
-        @apply text-emerald-400;
-    }
-
-    /* ===== ERROR ===== */
-    .alert-danger {
-        @apply border-red-500/30 bg-red-500/10 text-red-300;
-    }
-    .alert-danger .alert-icon {
-        @apply text-red-400;
-    }
-
-    /* ===== WARNING ===== */
-    .alert-warning {
-        @apply border-amber-500/30 bg-amber-500/10 text-amber-300;
-    }
-    .alert-warning .alert-icon {
-        @apply text-amber-400;
-    }
-
-    /* ===== INFO ===== */
-    .alert-info {
-        @apply border-sky-500/30 bg-sky-500/10 text-sky-300;
-    }
-    .alert-info .alert-icon {
-        @apply text-sky-400;
-    }
+    .alert { @apply relative w-full rounded-lg border px-4 py-3 text-sm shadow-lg backdrop-blur-sm flex items-start gap-3; }
+    .alert-success { @apply border-emerald-500/30 bg-emerald-50 text-emerald-700; }
+    .alert-danger { @apply border-red-500/30 bg-red-50 text-red-700; }
+    .alert-warning { @apply border-amber-500/30 bg-amber-50 text-amber-700; }
+    .alert-info { @apply border-sky-500/30 bg-sky-50 text-sky-700; }
 }
 
 @layer utilities {
 
-    /* Primeira letra maiúscula */
-    .capitalize-first:first-letter {
-        @apply uppercase;
-    }
-
-    /* ===== LOADING INPUT (spinner discreto) ===== */
-    .loading-input {
-        @apply relative;
-    }
     .loading-input::after {
-        @apply content-[''] absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 border-2 border-[#ffd6a3]/60 border-t-transparent rounded-full animate-spin;
-    }
-    .loading-input.loading-compact::after {
-        @apply right-2 w-3.5 h-3.5;
+        @apply content-[''] absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 border-2 border-[#2CAA2C]/60 border-t-transparent rounded-full animate-spin;
     }
 
-    /* ===== OVERLAY BASE (SEM ANIMAÇÃO) ===== */
     .loading-box-card::before,
     .loading-box-modal::before {
         content: '';
-        @apply absolute inset-0 z-50 bg-black/40 rounded-xl;
+        @apply absolute inset-0 z-50 bg-black/20 rounded-xl;
     }
 
-    /* Modal não precisa de borda arredondada */
-    .loading-box-modal::before {
-        @apply rounded-none;
-    }
-
-    /* ===== DOTS ANIMADOS ===== */
     .loading-box-card::after,
     .loading-box-modal::after {
         content: '•••';
-        @apply absolute inset-0 z-50 flex items-center justify-center text-[#ffd6a3] text-2xl tracking-[0.4em] font-semibold;
+        @apply absolute inset-0 z-50 flex items-center justify-center text-[#2CAA2C] text-2xl tracking-[0.4em] font-semibold;
         animation: loadingDots 1.4s ease-in-out infinite;
     }
 
-    /* Modal um pouco maior */
-    .loading-box-modal::after {
-        @apply text-2xl;
-    }
-
-    /* ===== TRUNCATE COM FADE ===== */
     .string-truncate {
-        @apply relative overflow-hidden whitespace-nowrap text-[#ffd6a3];
+        @apply relative overflow-hidden whitespace-nowrap text-[#111827];
     }
     .string-truncate::after {
-        @apply content-[''] absolute right-0 top-0 h-full w-8 bg-linear-to-l from-[#1f0d12] to-transparent;
+        @apply content-[''] absolute right-0 top-0 h-full w-8 bg-linear-to-l from-white to-transparent;
     }
 }
 
-/* ===== ANIMAÇÃO APENAS DOS DOTS ===== */
 @keyframes loadingDots {
-    0%, 20% {
-        content: '•     ';
-    }
-    40% {
-        content: '• •   ';
-    }
-    60% {
-        content: '• • •';
-    }
-    80%, 100% {
-        content: '      ';
-    }
+    0%,20%{content:'•     '}
+    40%{content:'• •   '}
+    60%{content:'• • •'}
+    80%,100%{content:'      '}
 }
