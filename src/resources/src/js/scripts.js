@@ -228,47 +228,97 @@ document.addEventListener('alpine:init', () => {
         open: false,
         cleanup: null,
         init() {
-            this.$nextTick(() => this.run());
+            this.$nextTick(() => this.setup());
         },
-        run() {
+        setup() {
             const referenceEl = this.$refs.referenceDropdown;
             const floatingEl = this.$refs.floatingDropdown;
 
             if (!referenceEl || !floatingEl) return;
 
-            this.$watch('open', async (open) => {
+            // Garante estilos base sem tirar do Alpine
+            floatingEl.style.position = strategy;
+            floatingEl.style.top = '0px';
+            floatingEl.style.left = '0px';
 
-                if (open) {
-                    document.body.append(floatingEl);
+            this.$watch('open', (isOpen) => {
 
-                    const maxZ = [...document.querySelectorAll('*')].reduce((max, el) => {
-                        const zIndex = parseInt(window.getComputedStyle(el).zIndex, 10);
-                        return !isNaN(zIndex) ? Math.max(max, zIndex) : max;
-                    }, 0);
-
-                    floatingEl.style.zIndex = maxZ + 1;
-
-                    this.cleanup = autoUpdate(referenceEl, floatingEl, async () => {
-                        const { x, y } = await computePosition(referenceEl, floatingEl, {
-                            strategy,
-                            placement,
-                            middleware: [flip(), offset(distance)],
-                        });
-
-                        Object.assign(floatingEl.style, {
-                            top: `${y}px`,
-                            left: `${x}px`,
-                            position: strategy,
-                        });
-                    });
+                if (isOpen) {
+                    this.showDropdown(floatingEl);
+                    this.startAutoUpdate(referenceEl, floatingEl);
+                    this.closeOnEscape();
+                    this.closeOnScroll();
                 } else {
-                    if (typeof this.cleanup === 'function') {
-                        floatingEl.remove();
-                        this.cleanup();
-                        this.cleanup = null;
-                    }
+                    this.hideDropdown(floatingEl);
+                    this.stopAutoUpdate();
+                    this.removeGlobalListeners();
                 }
+
             });
+
+            // Cleanup se Alpine destruir o componente
+            this.$el.addEventListener('alpine:destroy', () => {
+                this.stopAutoUpdate();
+                this.removeGlobalListeners();
+            });
+        },
+        showDropdown(el) {
+            el.classList.remove('hidden');
+            el.classList.add('flex');
+
+            // z-index leve e sem varrer DOM
+            if (!window.__zIndexCounter) window.__zIndexCounter = 2000;
+            window.__zIndexCounter += 1;
+            el.style.zIndex = window.__zIndexCounter;
+        },
+        hideDropdown(el) {
+            el.classList.add('hidden');
+            el.classList.remove('flex');
+        },
+        startAutoUpdate(referenceEl, floatingEl) {
+            this.cleanup = autoUpdate(referenceEl, floatingEl, async () => {
+                const { x, y } = await computePosition(referenceEl, floatingEl, {
+                    strategy,
+                    placement,
+                    middleware: [flip(), offset(distance)],
+                });
+
+                Object.assign(floatingEl.style, {
+                    top: `${y}px`,
+                    left: `${x}px`,
+                });
+            });
+        },
+        stopAutoUpdate() {
+            if (typeof this.cleanup === 'function') {
+                this.cleanup();
+                this.cleanup = null;
+            }
+        },
+        closeOnEscape() {
+            this._escapeHandler = (e) => {
+                if (e.key === 'Escape') this.open = false;
+            };
+            window.addEventListener('keydown', this._escapeHandler);
+        },
+        closeOnScroll() {
+            this._scrollHandler = () => {
+                this.open = false;
+            };
+            window.addEventListener('scroll', this._scrollHandler, true);
+            window.addEventListener('resize', this._scrollHandler);
+        },
+        removeGlobalListeners() {
+            if (this._escapeHandler) {
+                window.removeEventListener('keydown', this._escapeHandler);
+                this._escapeHandler = null;
+            }
+
+            if (this._scrollHandler) {
+                window.removeEventListener('scroll', this._scrollHandler, true);
+                window.removeEventListener('resize', this._scrollHandler);
+                this._scrollHandler = null;
+            }
         }
     }));
 

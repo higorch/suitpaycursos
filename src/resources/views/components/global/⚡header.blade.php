@@ -1,15 +1,24 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
 new class extends Component
 {
-    //
+    public function logout()
+    {
+        Auth::logout(); // desloga o usuário
+
+        request()->session()->invalidate(); // invalida a sessão
+        request()->session()->regenerateToken(); // previne CSRF antigo
+
+        return redirect()->route('auth.login');
+    }
 };
 ?>
 
 <header x-data="{ open:false }" class="bg-white/80 backdrop-blur border-b border-[#E5E7EB] sticky top-0 z-50">
-
+    
     <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
 
         <div class="flex items-center gap-10">
@@ -22,17 +31,24 @@ new class extends Component
                     <i class="las la-tachometer-alt text-lg"></i>Dashboard
                 </a>
 
+                @can('student')
                 <a href="#" class="flex items-center gap-2 text-gray-500 hover:text-[#33CC33] transition">
                     <i class="la la-book text-lg"></i>Meus Cursos
                 </a>
+                @endcan
 
+                @canany(['admin', 'teacher'])
                 <div x-data="dropdown('bottom-start', 'absolute', 10)" @click.outside="open=false" class="relative">
-                    <a href="#" @click.prevent="open=!open" x-ref="referenceDropdown" class="flex items-center gap-1 text-gray-500 hover:text-[#33CC33] transition">
+                    <a href="#" @click.prevent="open = !open" x-ref="referenceDropdown" class="flex items-center gap-1 text-gray-500 hover:text-[#33CC33] transition">
                         <i class="la la-database text-lg"></i>Cadastros
                         <i class="la la-angle-down text-sm opacity-70"></i>
                     </a>
-
                     <div x-ref="floatingDropdown" class="flex-col gap-1 w-52 p-2 absolute rounded-xl shadow-lg border border-[#E5E7EB] bg-white hidden" :class="{'flex': open, 'hidden': !open}">
+                        @can('admin')
+                        <a href="{{ route('panel.users.index') }}" wire:navigate class="flex items-center gap-2 px-3 py-2 text-sm text-gray-600 hover:bg-[#F3F4F6] hover:text-[#33CC33] rounded-lg">
+                            <i class="la la-user"></i>Usuários
+                        </a>
+                        @endcan
                         <a href="{{ route('panel.students.index') }}" wire:navigate class="flex items-center gap-2 px-3 py-2 text-sm text-gray-600 hover:bg-[#F3F4F6] hover:text-[#33CC33] rounded-lg">
                             <i class="la la-user-graduate"></i>Alunos
                         </a>
@@ -41,12 +57,13 @@ new class extends Component
                         </a>
                     </div>
                 </div>
+                @endcanany
 
             </nav>
         </div>
 
         <div class="flex items-center gap-5">
-            <a href="#" class="text-sm text-gray-400 hover:text-red-500 transition font-medium pr-5 border-r border-gray-200 flex items-center gap-2">
+            <a href="#" wire:click.prevent="logout" class="text-sm text-gray-400 hover:text-red-500 transition font-medium pr-5 border-r border-gray-200 flex items-center gap-2">
                 <i class="la la-sign-out-alt text-lg"></i>Sair
             </a>
 

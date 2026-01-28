@@ -10,7 +10,6 @@
     @apply relative w-full text-[#111827] outline-none;
 }
 
-/* Remove outline azul padrão */
 .suit-choices:focus,
 .suit-choices *:focus {
     outline: none !important;
@@ -31,17 +30,17 @@
    CAMPO PRINCIPAL
 ========================= */
 .suit-choices .choices__inner {
-    @apply w-full min-h-12 rounded-lg border border-[#E5E7EB] bg-white px-4 py-2 text-sm text-[#111827] shadow-sm transition;
+    @apply w-full min-h-12 rounded-lg border border-[#D1D5DB] bg-white px-4 py-2 text-sm text-[#111827] shadow-sm transition;
 }
 
-/* FOCUS VISUAL */
+/* FOCUS FORTE E NÍTIDO */
 .suit-choices.is-focused .choices__inner {
-    @apply ring-2 ring-[#2CAA2C]/30 border-[#2CAA2C]/40;
+    @apply ring-2 ring-[#2CAA2C]/30 border-[#2CAA2C];
 }
 
 /* INPUT DIGITÁVEL */
 .suit-choices .choices__input {
-    @apply w-full m-0 p-1 bg-transparent text-[#111827] placeholder-[#9CA3AF] outline-none;
+    @apply w-full m-0 p-1 bg-transparent text-[#111827] placeholder-[#6B7280] outline-none;
 }
 
 /* REMOVE SELECT ORIGINAL */
@@ -53,7 +52,7 @@
    DROPDOWN
 ========================= */
 .suit-choices .choices__list--dropdown {
-    @apply mt-2 rounded-md border border-[#E5E7EB]! bg-white text-[#111827] shadow-2xl overflow-hidden z-50;
+    @apply mt-2 rounded-md border border-[#D1D5DB]! bg-white text-[#111827] shadow-xl overflow-hidden z-50;
 }
 
 /* ITEM */
@@ -61,9 +60,9 @@
     @apply px-4 py-2 text-sm cursor-pointer transition;
 }
 
-/* HOVER */
+/* HOVER MAIS VISÍVEL */
 .suit-choices .choices__list--dropdown .choices__item--selectable.is-highlighted {
-    @apply bg-[#2CAA2C]/10 text-[#2CAA2C];
+    @apply bg-[#2CAA2C]/15 text-[#1E7F1E];
 }
 
 /* DISABLED */
@@ -82,75 +81,78 @@
    MULTI SELECT TAGS
 ========================= */
 .suit-choices .choices__list--multiple .choices__item {
-    @apply bg-[#2CAA2C]/10 text-[#2CAA2C] border border-[#2CAA2C]/30 rounded-md px-2 py-1 text-xs mr-1 mb-1;
+    @apply bg-[#2CAA2C]/15 text-[#1E7F1E] border border-[#2CAA2C]/40 rounded-md px-2 py-1 text-xs mr-1 mb-1;
 }
 
-/* BOTÃO REMOVER TAG (MULTI) */
+/* BOTÃO REMOVER TAG */
 .suit-choices .choices__list--multiple .choices__item .choices__button {
-    @apply ml-1 text-[#6B7280] hover:text-red-500 transition;
+    @apply ml-1 text-[#6B7280] hover:text-[#DC2626] transition;
 }
 
-/* =========================
-   PLACEHOLDER
-========================= */
+/* PLACEHOLDER */
 .suit-choices .choices__placeholder {
-    @apply text-[#9CA3AF];
+    @apply text-[#6B7280];
 }
 
-/* =========================
-   DISABLED STATE
-========================= */
+/* DISABLED STATE */
 .suit-choices.is-disabled .choices__inner,
 .suit-choices.is-disabled .choices__placeholder,
 .suit-choices.is-disabled .choices__item--selectable {
     @apply opacity-40 cursor-not-allowed;
 }
 
-/* =========================
-   SETA DROPDOWN
-========================= */
+/* SETA */
 .suit-choices[data-type*="select-one"]::after {
-    @apply absolute right-4 top-1/2 -translate-y-1/2 text-[#6B7280] pointer-events-none;
+    @apply absolute right-4 top-1/2 -translate-y-1/2 text-[#4B5563] pointer-events-none;
     content: "▾";
 }
 
-/* =========================
-   BOTÃO LIMPAR (X)
-========================= */
+/* BOTÃO LIMPAR */
 .suit-choices[data-type*="select-one"] .choices__button {
     @apply absolute right-8 top-1/2 indent-0! overflow-visible! text-[0px] bg-no-repeat bg-center -translate-y-1/2 w-4 h-4 cursor-pointer opacity-70 hover:opacity-100 transition;
     background-size: 16px 16px;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none' stroke='%236B7280' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='M6 6l8 8M14 6l-8 8'/%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none' stroke='%234B5563' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='M6 6l8 8M14 6l-8 8'/%3E%3C/svg%3E");
 }
 .suit-choices[data-type*="select-one"] .choices__button:hover {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none' stroke='%23ef4444' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='M6 6l8 8M14 6l-8 8'/%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none' stroke='%23DC2626' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='M6 6l8 8M14 6l-8 8'/%3E%3C/svg%3E");
 }
 
 .suit-choices[data-type*="select-one"] .choices__placeholder .choices__button {
     @apply hidden;
 }
 
+/* =========================
+   COMPONENTES
+========================= */
 @layer components {
 
     .label-input-basic {
-        @apply text-[11px] tracking-widest text-[#6B7280] uppercase;
+        @apply text-[11px] tracking-widest text-[#4B5563] uppercase font-semibold;
     }
 
     .input-basic {
-        @apply w-full h-11.5 p-2 box-border rounded-lg border border-[#E5E7EB] bg-white text-sm text-[#111827] placeholder-[#9CA3AF] focus:border-[#2CAA2C]/40 focus:outline-none focus:ring-2 focus:ring-[#2CAA2C]/20;
+        @apply w-full h-11.5 p-2 box-border rounded-lg border border-[#D1D5DB] bg-white text-sm text-[#111827] placeholder-[#6B7280] shadow-sm transition;
+        @apply focus:border-[#2CAA2C] focus:ring-2 focus:ring-[#2CAA2C]/25 focus:outline-none;
+    }
+
+    .input-basic:hover {
+        @apply border-[#9CA3AF];
     }
 
     .input-error {
-        @apply absolute left-0 right-0 bottom-0 h-11.5 p-2 leading-6 box-border rounded-lg border border-red-500/30 bg-red-50 text-xs font-semibold text-red-600 shadow-lg backdrop-blur-sm z-50;
+        @apply absolute left-0 right-0 bottom-0 h-11.5 p-2 leading-6 box-border rounded-lg border border-red-500/40 bg-red-50 text-xs font-semibold text-red-600 shadow-lg z-50;
     }
 
-    .alert { @apply relative w-full rounded-lg border px-4 py-3 text-sm shadow-lg backdrop-blur-sm flex items-start gap-3; }
-    .alert-success { @apply border-emerald-500/30 bg-emerald-50 text-emerald-700; }
+    .alert { @apply relative w-full rounded-lg border px-4 py-3 text-sm shadow-md flex items-start gap-3; }
+    .alert-success { @apply border-[#2CAA2C]/30 bg-[#2CAA2C]/10 text-[#1E7F1E]; }
     .alert-danger { @apply border-red-500/30 bg-red-50 text-red-700; }
     .alert-warning { @apply border-amber-500/30 bg-amber-50 text-amber-700; }
-    .alert-info { @apply border-sky-500/30 bg-sky-50 text-sky-700; }
+    .alert-info { @apply border-[#2CAA2C]/30 bg-white text-[#2CAA2C]; }
 }
 
+/* =========================
+   UTILITIES
+========================= */
 @layer utilities {
 
     .loading-input::after {
