@@ -21,14 +21,15 @@ services:
     restart: always
     tty: true
     ports:
-      - "3306:3306"
+      - "3329:3306"
     volumes:
       - ./.docker/mysql/data:/var/lib/mysql
     environment:
       MYSQL_ROOT_PASSWORD: password
       MYSQL_DATABASE: laravel
       MYSQL_USER: laravel
-      MYSQL_PASSWORD: password
+      MYSQL_PASSWORD: secret
+    command: --default-authentication-plugin=mysql_native_password
     networks:
       - webserver
 
