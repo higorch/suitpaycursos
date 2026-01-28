@@ -6,7 +6,7 @@
 
             <!-- Title + Back -->
             <div class="flex items-center gap-4">
-                <a href="#" class="inline-flex items-center justify-center w-10 h-10 rounded-lg border border-[#E5E7EB] text-gray-500 hover:bg-gray-50 hover:text-[#2CAA2C] transition">
+                <a href="{{ route('panel.students.index') }}" wire:navigate class="inline-flex items-center justify-center w-10 h-10 rounded-lg border border-[#E5E7EB] text-gray-500 hover:bg-gray-50 hover:text-[#2CAA2C] transition">
                     <i class="la la-arrow-left text-lg"></i>
                 </a>
 
@@ -40,7 +40,7 @@
     <section class="px-6 pb-16">
         <div class="flex flex-col sm:flex-row justify-between items-center gap-3">
 
-            <a href="#" class="inline-flex items-center justify-center gap-2 border border-[#E5E7EB] text-gray-600 hover:bg-gray-50 text-sm px-6 py-2.5 rounded-lg font-semibold transition w-full sm:w-auto">
+            <a href="{{ route('panel.students.index') }}" wire:navigate class="inline-flex items-center justify-center gap-2 border border-[#E5E7EB] text-gray-600 hover:bg-gray-50 text-sm px-6 py-2.5 rounded-lg font-semibold transition w-full sm:w-auto">
                 <i class="la la-arrow-left"></i>Voltar
             </a>
 
