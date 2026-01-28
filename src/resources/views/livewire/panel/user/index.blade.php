@@ -6,7 +6,6 @@
 
             <div class="space-y-2">
                 <h1 class="text-3xl font-semibold tracking-tight text-[#111827]">Usuários</h1>
-                <p class="text-sm text-gray-500">Gerenciamento de usuários</p>
             </div>
 
             <div class="w-full md:w-auto">

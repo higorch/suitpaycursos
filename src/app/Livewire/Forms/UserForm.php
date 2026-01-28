@@ -1,0 +1,137 @@
+<?php
+
+namespace App\Livewire\Forms;
+
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
+use Livewire\Form;
+
+class UserForm extends Form
+{
+    public ?string $ulid = null;
+    public string $name;
+    public string $email;
+    public string $password;
+    public string $password_confirmation;
+    public string $role;
+    public string $at;
+    public string $status;
+    public ?string $cpf_cnpj;
+    public ?string $date_birth;
+
+    public function isEditing(): bool
+    {
+        return filled($this->ulid);
+    }
+
+    public function edit(string $ulid): void
+    {
+        $user = $this->getUser($ulid);
+        if (!$user) return;
+
+        $this->ulid = $user->ulid;
+        $this->name = $user->name;
+        $this->email = $user->email;
+        $this->role = $user->role ?? 'student';
+        $this->status = $user->status;
+        $this->at = $user->at;
+        $this->cpf_cnpj = $user->cpf_cnpj ?? '';
+        $this->date_birth = $user->date_birth ?? '';
+    }
+
+    public function save()
+    {
+        return $this->isEditing() ? $this->update() : $this->create();
+    }
+
+    public function create()
+    {
+        return User::create($this->getUserData());
+    }
+
+    public function update()
+    {
+        $user = $this->getUser($this->ulid);
+        if (!$user) return null;
+
+        $user->update($this->getUserData());
+        return $user;
+    }
+
+    protected function getUserData(): array
+    {
+        $data = [
+            'name' => $this->name,
+            'email' => $this->email,
+            'role' => $this->role,
+            'status' => $this->status,
+            'at' => $this->at ?: Str::slug($this->name),
+            'cpf_cnpj' => $this->cpf_cnpj ?: null,
+            'date_birth' => $this->date_birth ?: null,
+        ];
+
+        // Só altera senha se tiver preenchida
+        if (!empty($this->password)) {
+            $data['password'] = Hash::make($this->password);
+        }
+
+        return $data;
+    }
+
+    private function getUser(string $ulid): ?User
+    {
+        return User::where('ulid', $ulid)->first();
+    }
+
+    protected function rules()
+    {
+        $userId = $this->ulid ? User::where('ulid', $this->ulid)->value('id') : null;
+
+        $rules = [
+            'name' => ['required'],
+            'status' => ['required'],
+            'role' => ['required'],
+            'cpf_cnpj' => ['nullable', 'cpf_ou_cnpj'],
+            'date_birth' => ['nullable', 'date'],
+            'at' => [
+                'required',
+                'regex:/^[a-z0-9]+$/',
+                Rule::unique('users', 'at')->ignore($userId),
+            ],
+            'email' => [
+                'required',
+                'email',
+                Rule::unique('users', 'email')->ignore($userId),
+            ],
+            'password' => [
+                'min:8',
+                'regex:/[a-z]/', // Obriga ter pelo menos UMA letra minúscula (a até z)
+                'regex:/[A-Z]/',  // Obriga ter pelo menos UMA letra maiúscula (A até Z
+                'regex:/[0-9]/', // Obriga ter pelo menos UM número (0 até 9)
+                'regex:/[@$!%*#?&]/', // Obriga ter pelo menos UM caractere especial "@ $ ! % * # ? &"
+            ],
+            'password_confirmation' => [
+                'same:password',
+            ],
+        ];
+
+        if ($this->isEditing()) {
+            array_unshift($rules['password'], 'nullable');
+            array_unshift($rules['password_confirmation'], 'nullable');
+        } else {
+            array_unshift($rules['password'], 'required');
+            array_unshift($rules['password_confirmation'], 'required');
+        }
+
+        return $rules;
+    }
+
+    protected function messages()
+    {
+        return [
+            'password_confirmation.same' => __('validation.confirmed'),
+        ];
+    }
+}

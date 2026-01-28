@@ -10,16 +10,13 @@
                 <a href="{{ route('panel.users.index') }}" wire:navigate class="inline-flex items-center justify-center w-10 h-10 rounded-lg border border-[#E5E7EB] text-gray-500 hover:bg-gray-50 hover:text-[#2CAA2C] transition">
                     <i class="la la-arrow-left text-lg"></i>
                 </a>
-
-                <h1 class="text-3xl font-semibold tracking-tight text-[#111827]">
-                    Cadastrar Usuário
-                </h1>
+                <h1 class="text-3xl font-semibold tracking-tight text-[#111827]">{{ $pageTitle }}</h1>
             </div>
 
             <!-- Top Save -->
             <div class="w-full md:w-auto">
                 <div class="flex flex-col sm:flex-row gap-3 md:justify-end">
-                    <a href="#" class="inline-flex items-center justify-center gap-2 bg-[#2CAA2C] hover:bg-[#259C25] text-white text-sm px-6 py-2.5 rounded-lg font-semibold shadow-sm transition w-full sm:w-auto">
+                    <a href="#" wire:click.prevent="submit" class="inline-flex items-center justify-center gap-2 bg-[#2CAA2C] hover:bg-[#259C25] text-white text-sm px-6 py-2.5 rounded-lg font-semibold shadow-sm transition w-full sm:w-auto">
                         <i class="la la-save"></i>Salvar
                     </a>
                 </div>
@@ -53,14 +50,26 @@
                 <!-- USERNAME -->
                 <div class="relative col-span-12 md:col-span-6 flex flex-col gap-2">
                     <label class="text-xs font-semibold text-gray-500 uppercase tracking-wider">@ Usuário</label>
-                    <input type="text" wire:model.live.debounce.300ms="form.at" x-on:input="() => { 
-                        let v = $event.target.value
-                            .toLowerCase()
-                            .normalize('NFD').replace(/[\u0300-\u036f]/g,'')
-                            .replace(/[^a-z0-9]/g,'');
-                        $event.target.value = v;
-                        $wire.set('form.at', v);
-                    }" class="input-basic">
+                    <input type="text" class="input-basic" wire:model="form.at" x-data="{
+                            name: $wire.entangle('form.name'),
+                            at: $wire.entangle('form.at'),
+                            sanitize(v) {
+                                return (v || '')
+                                    .toLowerCase()
+                                    .normalize('NFD').replace(/[\u0300-\u036f]/g,'')
+                                    .replace(/\s+/g,'') // remove espaços
+                                    .replace(/[^a-z0-9]/g,''); // só letras e números
+                            },
+                            init() {
+                                this.$watch('name', value => {
+                                    this.at = this.sanitize(value);
+                                });
+                                this.$watch('at', value => {
+                                    let clean = this.sanitize(value);
+                                    if (clean !== value) this.at = clean;
+                                });
+                            }
+                        }">
                     @error('form.at') <span @mouseover="$el.remove()" class="input-error full label">{{ $message }}</span> @enderror
                 </div>
 
@@ -158,6 +167,9 @@
                     @error('form.password_confirmation') <span @mouseover="$el.remove()" class="input-error full label">{{ $message }}</span> @enderror
                 </div>
 
+                <!-- SEGURANÇA DA SENHA -->
+                <livewire:global.strong-password-verifier wire:model="form.password" />
+
             </div>
 
         </div>
@@ -171,7 +183,7 @@
             <a href="{{ route('panel.users.index') }}" wire:navigate class="inline-flex items-center justify-center gap-2 border border-[#E5E7EB] text-gray-600 hover:bg-gray-50 text-sm px-6 py-2.5 rounded-lg font-semibold transition w-full sm:w-auto">
                 <i class="la la-arrow-left"></i>Voltar
             </a>
-            <a href="#" class="inline-flex items-center justify-center gap-2 bg-[#2CAA2C] hover:bg-[#259C25] text-white text-sm px-6 py-2.5 rounded-lg font-semibold shadow-sm transition w-full sm:w-auto">
+            <a href="#" wire:click.prevent="submit" class="inline-flex items-center justify-center gap-2 bg-[#2CAA2C] hover:bg-[#259C25] text-white text-sm px-6 py-2.5 rounded-lg font-semibold shadow-sm transition w-full sm:w-auto">
                 <i class="la la-save"></i>Salvar
             </a>
         </div>
