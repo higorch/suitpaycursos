@@ -33,7 +33,7 @@ services:
     networks:
       - webserver
 
-  nginx:
+  nginxsutipaycursos:
     image: nginx:alpine
     container_name: nginx
     restart: always
