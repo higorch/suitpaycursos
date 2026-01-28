@@ -48,7 +48,7 @@ Edite o arquivo `src/.env` e deixe assim:
 
 ```env
 DB_CONNECTION=mysql
-DB_HOST=mysql8
+DB_HOST=mysqlsutipaycursos
 DB_PORT=3306
 DB_DATABASE=laravel
 DB_USERNAME=laravel

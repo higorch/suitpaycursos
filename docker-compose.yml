@@ -11,13 +11,13 @@ services:
     volumes:
       - ./src:/var/www
     depends_on:
-      - mysql8
+      - mysqlsutipaycursos
     networks:
       - webserver
 
-  mysql8:
+  mysqlsutipaycursos:
     image: mysql:8.0
-    container_name: mysql8
+    container_name: mysqlsutipaycursos
     restart: always
     tty: true
     ports:
