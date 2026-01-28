@@ -24,7 +24,7 @@
 /.docker/mysql/data/
 /.docker/nginx/log/
 
-/.composer/
+.composer/
 
 .DS_Store
 Thumbs.db
