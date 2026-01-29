@@ -36,9 +36,10 @@
                     <thead>
                         <tr>
                             <th class="sticky left-0 bg-[#F9FAFB]">Nome</th>
-                            <th>E-mail</th>
-                            <th>Tipo</th>
                             <th>Status</th>
+                            <th>Tipo</th>
+                            <th>E-mail</th>
+                            <th>CPF/CNPJ</th>
                             <th class="sticky right-0 w-20 text-right bg-[#F9FAFB]"></th>
                         </tr>
                     </thead>
@@ -53,19 +54,20 @@
                         @endphp
                         <tr wire:key="user-{{ $user->ulid }}">
                             <td class="sticky left-0 font-medium text-[#111827]">{{ $user->name }}</td>
-                            <td class="text-gray-600 whitespace-nowrap">{{ $user->email }}</td>
-                            <td class="capitalize text-gray-600">
-                                <span class="badge badge-black w-full flex items-center justify-center">
-                                    {{ $roles[$user->role] ?? $user->role }}
-                                </span>
-                            </td>
                             <td>
                                 @if($user->status === 'activated')
                                 <span class="badge badge-green w-full flex items-center justify-center">Ativo</span>
                                 @else
-                                <span class="badge badge-gray w-full flex items-center justify-center">Inativo</span>
+                                <span class="badge badge-red w-full flex items-center justify-center">Inativo</span>
                                 @endif
                             </td>
+                            <td class="capitalize">
+                                <span class="badge badge-black w-full flex items-center justify-center">
+                                    {{ $roles[$user->role] ?? $user->role }}
+                                </span>
+                            </td>
+                            <td class="whitespace-nowrap">{{ $user->email }}</td>
+                            <td class="whitespace-nowrap">{{ $user->cpf_cnpj ? maskFormat('cpf_cnpj', $user->cpf_cnpj) : 'N/A' }}</td>
                             <td class="sticky right-0 w-20 text-center">
                                 <div x-data="dropdown('left-start', 'absolute', 10)" @click.outside="open = false" class="relative z-20">
                                     <a x-ref="referenceDropdown" href="#" class="flex items-center justify-center w-9 h-9 text-gray-500 hover:text-[#33CC33] transition" @click.prevent="open = !open">

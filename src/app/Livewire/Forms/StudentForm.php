@@ -9,14 +9,13 @@ use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 use Livewire\Form;
 
-class UserForm extends Form
+class StudentForm extends Form
 {
     public ?string $ulid = null;
     public string $name = '';
     public string $email = '';
     public string $password = '';
     public string $password_confirmation = '';
-    public string $role = '';
     public string $at = '';
     public string $status = '';
     public ?string $cpf_cnpj = null;
@@ -35,7 +34,6 @@ class UserForm extends Form
         $this->ulid = $user->ulid;
         $this->name = $user->name;
         $this->email = $user->email;
-        $this->role = $user->role ?? 'student';
         $this->status = $user->status;
         $this->at = $user->at;
         $this->cpf_cnpj = $user->cpf_cnpj ?? '';
@@ -66,7 +64,7 @@ class UserForm extends Form
         $data = [
             'name' => $this->name,
             'email' => $this->email,
-            'role' => $this->role,
+            'role' => 'student',
             'status' => $this->status,
             'at' => $this->at ?: Str::slug($this->name),
             'cpf_cnpj' => sanitizeSpecialCharacters($this->cpf_cnpj, true),
@@ -102,7 +100,6 @@ class UserForm extends Form
         $rules = [
             'name' => ['required'],
             'status' => ['required'],
-            'role' => ['required'],
             'cpf_cnpj' => ['nullable', 'cpf_ou_cnpj'],
             'date_birth' => ['nullable', 'date'],
             'at' => [
@@ -116,6 +113,7 @@ class UserForm extends Form
                 Rule::unique('users', 'email')->ignore($userId),
             ],
             'password' => [
+                'nullable',
                 'min:8',
                 'regex:/[a-z]/', // Obriga ter pelo menos UMA letra minúscula (a até z)
                 'regex:/[A-Z]/',  // Obriga ter pelo menos UMA letra maiúscula (A até Z
@@ -123,17 +121,10 @@ class UserForm extends Form
                 'regex:/[@$!%*#?&]/', // Obriga ter pelo menos UM caractere especial "@ $ ! % * # ? &"
             ],
             'password_confirmation' => [
+                'nullable',
                 'same:password',
             ],
         ];
-
-        if ($this->isEditing()) {
-            array_unshift($rules['password'], 'nullable');
-            array_unshift($rules['password_confirmation'], 'nullable');
-        } else {
-            array_unshift($rules['password'], 'required');
-            array_unshift($rules['password_confirmation'], 'required');
-        }
 
         return $rules;
     }
