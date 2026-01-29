@@ -65,7 +65,7 @@ class User extends Authenticatable
 
     public function attachments()
     {
-        return $this->hasMany(Attachment::class, 'user_id');
+        return $this->morphMany(Attachment::class, 'attachable');
     }
 
     public function courses()

@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreign('student_id')->references('id')->on('users')->onUpdate('cascade');
             $table->foreignUlid('course_id');
             $table->foreign('course_id')->references('id')->on('courses')->onUpdate('cascade');
+            $table->unsignedBigInteger('registration_number'); // numero da matricula
             $table->string('status', 25)->index(); // activated, disabled
             $table->timestamps();
         });

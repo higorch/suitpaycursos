@@ -26,71 +26,73 @@
     <!-- Page Content -->
     <section>
         @if ($users->isEmpty())
-        <div class="rounded-xl border border-[#E5E7EB] bg-[#F9FAFB] px-6 py-8 text-center">
-            <p class="text-sm text-gray-500">Nenhum usuário cadastrado.</p>
-        </div>
-        @else
+            <div class="rounded-xl border border-[#E5E7EB] bg-[#F9FAFB] px-6 py-8 text-center">
+                <p class="text-sm text-gray-500">Nenhum usuário cadastrado.</p>
+            </div>
+            @else
 
-        <div class="overflow-x-hidden rounded-xl border border-[#E5E7EB] bg-white" x-data="scrollbar" wire:ignore.self>
-            <table class="table-primary table-fixed">
-                <thead>
-                    <tr>
-                        <th class="sticky left-0 bg-[#F9FAFB]">Nome</th>
-                        <th>E-mail</th>
-                        <th>Tipo</th>
-                        <th>Status</th>
-                        <th class="sticky right-0 w-20 text-right bg-[#F9FAFB]"></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($users as $user)
-                    @php
-                        $roles = [
-                            'admin' => 'Administrador',
-                            'teacher' => 'Professor',
-                            'student' => 'Aluno',
-                        ];
-                    @endphp
-                    <tr wire:key="user-{{ $user->ulid }}">
-                        <td class="sticky left-0 font-medium text-[#111827]">{{ $user->name }}</td>
-                        <td class="text-gray-600 whitespace-nowrap">{{ $user->email }}</td>
-                        <td class="capitalize text-gray-600">
-                            <span class="badge badge-black w-full flex items-center justify-center">
-                                {{ $roles[$user->role] ?? $user->role }}
-                            </span>
-                        </td>
-                        <td>
-                            @if($user->status === 'activated')
-                            <span class="badge badge-green w-full flex items-center justify-center">Ativo</span>
-                            @else
-                            <span class="badge badge-gray w-full flex items-center justify-center">Inativo</span>
-                            @endif
-                        </td>
-                        <td class="sticky right-0 w-20 text-center">
-                            <div x-data="dropdown('left-start', 'absolute', 10)" @click.outside="open = false" class="relative z-20">
-                                <a x-ref="referenceDropdown" href="#" class="flex items-center justify-center w-9 h-9 text-gray-500 hover:text-[#33CC33] transition" @click.prevent="open = !open">
-                                    <i class="las la-ellipsis-v text-lg"></i>
-                                </a>
-                                <div x-ref="floatingDropdown" :class="{'flex': open, 'hidden': !open}" class="flex-col gap-1 w-40 p-2 absolute rounded-xl shadow-lg border border-[#E5E7EB] bg-white hidden">
-                                    <a wire:navigate href="{{ route('panel.users.edit', $user->ulid) }}" class="flex items-center gap-2 px-3 py-2 text-sm text-gray-600 hover:bg-[#F3F4F6] hover:text-[#33CC33] rounded-lg transition">
-                                        <i class="las la-pen"></i>Editar
+            <div class="overflow-x-hidden rounded-xl border border-[#E5E7EB] bg-white" x-data="scrollbar" wire:ignore.self>
+                <table class="table-primary table-fixed">
+                    <thead>
+                        <tr>
+                            <th class="sticky left-0 bg-[#F9FAFB]">Nome</th>
+                            <th>E-mail</th>
+                            <th>Tipo</th>
+                            <th>Status</th>
+                            <th class="sticky right-0 w-20 text-right bg-[#F9FAFB]"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($users as $user)
+                        @php
+                            $roles = [
+                                'admin' => 'Administrador',
+                                'teacher' => 'Professor',
+                                'student' => 'Aluno',
+                            ];
+                        @endphp
+                        <tr wire:key="user-{{ $user->ulid }}">
+                            <td class="sticky left-0 font-medium text-[#111827]">{{ $user->name }}</td>
+                            <td class="text-gray-600 whitespace-nowrap">{{ $user->email }}</td>
+                            <td class="capitalize text-gray-600">
+                                <span class="badge badge-black w-full flex items-center justify-center">
+                                    {{ $roles[$user->role] ?? $user->role }}
+                                </span>
+                            </td>
+                            <td>
+                                @if($user->status === 'activated')
+                                <span class="badge badge-green w-full flex items-center justify-center">Ativo</span>
+                                @else
+                                <span class="badge badge-gray w-full flex items-center justify-center">Inativo</span>
+                                @endif
+                            </td>
+                            <td class="sticky right-0 w-20 text-center">
+                                <div x-data="dropdown('left-start', 'absolute', 10)" @click.outside="open = false" class="relative z-20">
+                                    <a x-ref="referenceDropdown" href="#" class="flex items-center justify-center w-9 h-9 text-gray-500 hover:text-[#33CC33] transition" @click.prevent="open = !open">
+                                        <i class="las la-ellipsis-v text-lg"></i>
                                     </a>
-                                    <div class="h-px bg-gray-100 my-1"></div>
-                                    <a href="#" wire:click.prevent="delete('{{ $user->ulid }}')" class="flex items-center gap-2 px-3 py-2 text-sm text-gray-600 hover:bg-red-50 hover:text-red-600 rounded-lg transition">
-                                        <i class="las la-trash"></i>Excluir
-                                    </a>
+                                    <div x-ref="floatingDropdown" :class="{'flex': open, 'hidden': !open}" class="flex-col gap-1 w-40 p-2 absolute rounded-xl shadow-lg border border-[#E5E7EB] bg-white hidden">
+                                        <a wire:navigate href="{{ route('panel.users.edit', $user->ulid) }}" class="flex items-center gap-2 px-3 py-2 text-sm text-gray-600 hover:bg-[#F3F4F6] hover:text-[#33CC33] rounded-lg transition">
+                                            <i class="las la-pen"></i>Editar
+                                        </a>
+                                        <div class="h-px bg-gray-100 my-1"></div>
+                                        <a href="#" @click.prevent="$dispatch('run-modal-confirm', { action: 'delete', context: 'user', id: '{{ $user->ulid }}', name: '{{ $user->name . ' - ' . $user->email }}', msg: 'Isso excluirá todos os vínculos. A ação é irreversível.' })" class="flex items-center gap-2 px-3 py-2 text-sm text-gray-600 hover:bg-red-50 hover:text-red-600 rounded-lg transition">
+                                            <i class="las la-trash"></i>Excluir
+                                        </a>
+                                    </div>
                                 </div>
-                            </div>
-                        </td>
-                    </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        </div>
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
 
-        @if ($users->hasPages())
-        <div class="pt-6 border-t border-dashed border-[#E5E7EB]">{{ $users->links() }}</div>
-        @endif
+            @if ($users->hasPages())
+                <div class="w-full mt-3 py-3 border-t border-dashed border-[#E5E7EB]">
+                    {{ $users->links('layouts.pagination') }}
+                </div>
+            @endif
 
         @endif
     </section>

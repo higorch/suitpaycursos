@@ -18,6 +18,8 @@
 
     <livewire:global.footer />
 
+    <livewire:global.modal-confirm />
+
     <script src="{{ mix('assets/js/scripts.js') }}"></script>
     @livewireScripts
 </body>

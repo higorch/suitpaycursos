@@ -28,6 +28,11 @@ class Course extends Model
         });
     }
 
+    public function attachments()
+    {
+        return $this->morphMany(Attachment::class, 'attachable');
+    }
+
     public function teacher()
     {
         return $this->belongsTo(User::class, 'teacher_id');
