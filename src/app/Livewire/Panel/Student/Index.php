@@ -3,6 +3,7 @@
 namespace App\Livewire\Panel\Student;
 
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Title;
@@ -46,6 +47,18 @@ class Index extends Component
     #[Computed]
     public function students()
     {
-        return User::where('role', 'student')->paginate(15);
+        $user = Auth::user();
+
+        // Admin vê todos os alunos
+        if ($user->role === 'admin') {
+            return User::where('role', 'student')->paginate(15);
+        }
+
+        // Professor vê alunos vinculados a ele, OU alunos matriculados em cursos dele
+        return User::where('role', 'student')->where(function ($query) use ($user) {
+            $query->where('teacher_id', $user->id)->orWhereHas('enrollments.course', function ($query) use ($user) {
+                $query->where('teacher_id', $user->id);
+            });
+        })->distinct()->paginate(15);
     }
 }

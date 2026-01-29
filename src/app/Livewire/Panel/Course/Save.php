@@ -3,6 +3,7 @@
 namespace App\Livewire\Panel\Course;
 
 use App\Livewire\Forms\CourseForm;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
 
@@ -20,6 +21,15 @@ class Save extends Component
     public function mount($id = null)
     {
         if ($id) {
+            $course = \App\Models\Course::where('id', $id)->firstOrFail();
+
+            $user = Auth::user();
+
+            // Se não for admin e não for o professor dono do curso, bloqueia
+            if ($user->role !== 'admin' && $course->teacher_id !== $user->id) {
+                abort(403);
+            }
+
             $this->form->edit($id);
         }
     }

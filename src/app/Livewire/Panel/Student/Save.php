@@ -3,6 +3,7 @@
 namespace App\Livewire\Panel\Student;
 
 use App\Livewire\Forms\StudentForm;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
 
@@ -20,6 +21,15 @@ class Save extends Component
     public function mount($ulid = null)
     {
         if ($ulid) {
+            $student = \App\Models\User::where('ulid', $ulid)->firstOrFail();
+
+            $user =  Auth::user();
+
+            // Se não for admin e não for o professor dono, bloqueia
+            if ($user->role !== 'admin' && $student->teacher_id !== $user->id) {
+                abort(403);
+            }
+
             $this->form->edit($ulid);
         }
     }

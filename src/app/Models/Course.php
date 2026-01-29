@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Scopes\CourseScope;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Model;
@@ -24,6 +25,8 @@ class Course extends Model
 
     protected static function booted(): void
     {
+        static::addGlobalScope(new CourseScope);
+
         static::addGlobalScope('order_by_id', function (Builder $builder) {
             $builder->orderBy('id');
         });

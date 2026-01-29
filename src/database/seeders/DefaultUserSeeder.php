@@ -4,58 +4,101 @@ namespace Database\Seeders;
 
 use App\Models\User;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class DefaultUserSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
+        // USUÁRIOS FIXOS
         $users = [
             [
-                'email' => 'suitpay@gmail.com',
+                'email' => 'suitpay@mail.com',
                 'name' => 'Suitpay',
-                'role' => 'admin'
+                'role' => 'admin',
             ],
             [
-                'email' => 'maria@gmail.com',
+                'email' => 'maria@mail.com',
                 'name' => 'Maria Santos',
-                'role' => 'teacher'
+                'role' => 'teacher',
             ],
             [
-                'email' => 'joao@gmail.com',
+                'email' => 'joao@mail.com',
                 'name' => 'João Marcos',
-                'role' => 'teacher'
+                'role' => 'teacher',
             ],
             [
-                'email' => 'gustavo@gmail.com',
+                'email' => 'gustavo@mail.com',
                 'name' => 'Gustavo Silva',
-                'role' => 'student'
+                'role' => 'student',
+                'teacher_email' => 'maria@mail.com',
             ],
             [
-                'email' => 'danilo@gmail.com',
+                'email' => 'danilo@mail.com',
                 'name' => 'Danilo Canhoto',
-                'role' => 'student'
+                'role' => 'student',
+                'teacher_email' => 'joao@mail.com',
             ],
         ];
 
-        foreach ($users as $user) {
-            $existingUser = User::where('email', $user['email'])->exists();
+        foreach ($users as $data) {
 
-            // Cria o usuário se não existir
-            if (!$existingUser) {
-                User::create([
-                    'role' => $user['role'],
-                    'email' => $user['email'],
-                    'name' => $user['name'],
-                    'password' => bcrypt('password'),
-                    'at' => incrementIfExistDatabase(formatAt($user['name']), 'users', 'at'),
-                    'status' => 'activated',
-                ]);
-
-                $this->command->info("Usuário {$user['name']} criado com sucesso!");
+            if (User::where('email', $data['email'])->exists()) {
+                continue;
             }
+
+            $teacherId = null;
+
+            if (($data['role'] === 'student') && isset($data['teacher_email'])) {
+                $teacher = User::where('email', $data['teacher_email'])->first();
+                $teacherId = $teacher?->id;
+            }
+
+            User::create([
+                'ulid' => Str::ulid(),
+                'role' => $data['role'],
+                'email' => $data['email'],
+                'name' => $data['name'],
+                'password' => Hash::make('password'),
+                'teacher_id' => $teacherId,
+                'at' => incrementIfExistDatabase(formatAt($data['name']), 'users', 'at'),
+                'status' => 'activated',
+            ]);
+
+            $this->command->info("Usuário {$data['name']} criado.");
         }
+
+        // USUÁRIOS DINÂMICOS (FAKER)
+        $teachers = User::where('role', 'teacher')->get();
+
+        // Já existem 5 usuários fixos, vamos criar mais 65
+        User::factory()->count(65)->state(function () use ($teachers) {
+
+            $name = fake()->name();
+
+            // Define papel aleatório (maior chance de ser aluno)
+            $role = fake()->randomElement(['student', 'student', 'student', 'teacher']);
+
+            $teacherId = null;
+
+            if ($role === 'student' && $teachers->isNotEmpty()) {
+                // 80% dos alunos terão professor
+                $teacherId = fake()->boolean(80) ? $teachers->random()->id : null;
+            }
+
+            return [
+                'ulid' => Str::ulid(),
+                'name' => $name,
+                'email' => fake()->unique()->safeEmail(),
+                'password' => Hash::make('password'),
+                'role' => $role,
+                'teacher_id' => $teacherId,
+                'status' => 'activated',
+                'at' => incrementIfExistDatabase(formatAt($name), 'users', 'at'),
+            ];
+        })->create();
+
+        $this->command->info('Usuários fake criados com sucesso.');
     }
 }

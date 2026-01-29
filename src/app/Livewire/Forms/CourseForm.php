@@ -101,7 +101,7 @@ class CourseForm extends Form
             'status' => ['required', 'in:activated,disabled'],
             'delivery_mode' => ['required', 'in:online,in-person,hybrid'],
             'max_enrollments' => ['nullable', 'integer'],
-            'enrollment_deadline' => ['nullable', 'date'],
+            'enrollment_deadline' => ['required', 'date'],
             'slug' => [
                 'required',
                 'regex:/^[a-z0-9]+(?:-[a-z0-9]+)*$/'
