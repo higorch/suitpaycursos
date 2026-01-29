@@ -93,11 +93,11 @@ Você será redirecionado para a tela de login.
 
 ## 🔐 Logins de teste
 
-**Senha padrão para TODOS os usuários de teste:**  
-`password`
-
 ### 👑 Administrador
-Email: **suitpay@mail.com**
+
+| Email | Senha |
+|------|------|
+| suitpay@mail.com | password |
 
 Acesso completo ao painel administrativo.
 
@@ -105,8 +105,10 @@ Acesso completo ao painel administrativo.
 
 ### 🎓 Criadores (Professores)
 
-- **maria@mail.com**  
-- **joao@mail.com**
+| Email | Senha |
+|------|------|
+| maria@mail.com | password |
+| joao@mail.com | password |
 
 Responsáveis pelos cursos na plataforma.
 
@@ -114,8 +116,10 @@ Responsáveis pelos cursos na plataforma.
 
 ### 👨‍🎓 Alunos
 
-- **gustavo@mail.com** (Criadora: Maria)  
-- **danilo@mail.com** (Criador: João)
+| Email | Senha | Criador Vinculado |
+|------|------|-------------------|
+| gustavo@mail.com | password | Maria |
+| danilo@mail.com | password | João |
 
 Acessam o catálogo e os cursos matriculados.
 
@@ -131,7 +135,3 @@ Acessam o catálogo e os cursos matriculados.
 > Internamente o Laravel usa a porta **3306** para o banco.
 
 ---
-
-## ✅ Pronto
-
-Subiu os containers, rodou `migrate --seed`, já pode logar e testar o sistema completo.
