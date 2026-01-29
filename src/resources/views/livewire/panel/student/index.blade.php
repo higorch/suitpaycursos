@@ -1,7 +1,7 @@
-<div class="flex flex-col gap-10">
+<div class="flex flex-col gap-10 pt-14 pb-16 px-6">
 
     <!-- Page Header -->
-    <section class="px-6 pt-14">
+    <section>
 
         <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-8">
 
@@ -24,7 +24,7 @@
     </section>
 
     <!-- Page Content -->
-    <section class="px-6">
+    <section>
 
         <div class="bg-white rounded-2xl shadow-sm border border-[#E5E7EB] p-8"></div>
 

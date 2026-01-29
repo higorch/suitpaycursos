@@ -1,7 +1,15 @@
-<div class="flex flex-col gap-10">
+<div class="flex flex-col gap-10 pt-14 pb-16 px-6">
+
+    @if (session('success'))
+        <div class="alert alert-success">
+            <div class="alert-content">
+                {{ session('success') }}
+            </div>
+        </div>
+    @endif
 
     <!-- Page Header -->
-    <section class="px-6 pt-14">
+    <section>
 
         <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-8">
 
@@ -27,7 +35,7 @@
     </section>
 
     <!-- Page Content -->
-    <section class="px-6">
+    <section>
 
         <div class="bg-white rounded-2xl shadow-sm border border-[#E5E7EB] p-8">
 
@@ -49,8 +57,9 @@
 
                 <!-- USERNAME -->
                 <div class="relative col-span-12 md:col-span-6 flex flex-col gap-2">
-                    <label class="text-xs font-semibold text-gray-500 uppercase tracking-wider">@ Usuário</label>
+                    <label class="text-xs font-semibold text-gray-500 uppercase tracking-wider">@Usuário</label>
                     <input type="text" class="input-basic" wire:model="form.at" x-data="{
+                            isEditing: $wire.entangle('form.ulid'),
                             name: $wire.entangle('form.name'),
                             at: $wire.entangle('form.at'),
                             sanitize(v) {
@@ -62,7 +71,9 @@
                             },
                             init() {
                                 this.$watch('name', value => {
-                                    this.at = this.sanitize(value);
+                                    if(!this.isEditing){
+                                        this.at = this.sanitize(value);
+                                    }
                                 });
                                 this.$watch('at', value => {
                                     let clean = this.sanitize(value);
@@ -177,7 +188,7 @@
     </section>
 
     <!-- Bottom Actions -->
-    <section class="px-6 pb-16">
+    <section>
 
         <div class="flex flex-col sm:flex-row justify-between items-center gap-3">
             <a href="{{ route('panel.users.index') }}" wire:navigate class="inline-flex items-center justify-center gap-2 border border-[#E5E7EB] text-gray-600 hover:bg-gray-50 text-sm px-6 py-2.5 rounded-lg font-semibold w-full sm:w-auto hover:text-[#2CAA2C] transition">

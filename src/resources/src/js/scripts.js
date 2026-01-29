@@ -227,6 +227,9 @@ document.addEventListener('alpine:init', () => {
     Alpine.data('dropdown', (placement = 'left', strategy = 'absolute', distance = 0) => ({
         open: false,
         cleanup: null,
+        placeholder: null,
+        originalParent: null,
+        nextSibling: null,
         init() {
             this.$nextTick(() => this.setup());
         },
@@ -236,57 +239,69 @@ document.addEventListener('alpine:init', () => {
 
             if (!referenceEl || !floatingEl) return;
 
-            // Garante estilos base sem tirar do Alpine
-            floatingEl.style.position = strategy;
-            floatingEl.style.top = '0px';
-            floatingEl.style.left = '0px';
-
             this.$watch('open', (isOpen) => {
-
                 if (isOpen) {
-                    this.showDropdown(floatingEl);
-                    this.startAutoUpdate(referenceEl, floatingEl);
+                    this.mountToBody(floatingEl);
+                    this.position(referenceEl, floatingEl);
+                    this.enableAutoUpdate(referenceEl, floatingEl);
                     this.closeOnEscape();
                     this.closeOnScroll();
                 } else {
-                    this.hideDropdown(floatingEl);
+                    this.restoreToOrigin(floatingEl);
                     this.stopAutoUpdate();
                     this.removeGlobalListeners();
                 }
-
             });
 
-            // Cleanup se Alpine destruir o componente
             this.$el.addEventListener('alpine:destroy', () => {
+                this.restoreToOrigin(floatingEl);
                 this.stopAutoUpdate();
                 this.removeGlobalListeners();
             });
         },
-        showDropdown(el) {
+        mountToBody(el) {
+            if (this.placeholder) return;
+
+            this.placeholder = document.createComment('dropdown-placeholder');
+            this.originalParent = el.parentNode;
+            this.nextSibling = el.nextSibling;
+
+            this.originalParent.insertBefore(this.placeholder, this.nextSibling);
+            document.body.appendChild(el);
+
             el.classList.remove('hidden');
             el.classList.add('flex');
-
-            // z-index leve e sem varrer DOM
-            if (!window.__zIndexCounter) window.__zIndexCounter = 2000;
-            window.__zIndexCounter += 1;
-            el.style.zIndex = window.__zIndexCounter;
+            el.style.position = strategy;
+            el.style.zIndex = 9999;
         },
-        hideDropdown(el) {
+        restoreToOrigin(el) {
+            if (!this.placeholder) return;
+
             el.classList.add('hidden');
             el.classList.remove('flex');
-        },
-        startAutoUpdate(referenceEl, floatingEl) {
-            this.cleanup = autoUpdate(referenceEl, floatingEl, async () => {
-                const { x, y } = await computePosition(referenceEl, floatingEl, {
-                    strategy,
-                    placement,
-                    middleware: [flip(), offset(distance)],
-                });
 
+            this.originalParent.insertBefore(el, this.placeholder);
+            this.placeholder.remove();
+
+            this.placeholder = null;
+            this.originalParent = null;
+            this.nextSibling = null;
+        },
+        position(referenceEl, floatingEl) {
+            computePosition(referenceEl, floatingEl, {
+                strategy,
+                placement,
+                middleware: [flip(), offset(distance)],
+            }).then(({ x, y }) => {
                 Object.assign(floatingEl.style, {
-                    top: `${y}px`,
                     left: `${x}px`,
+                    top: `${y}px`,
                 });
+            });
+        },
+        enableAutoUpdate(referenceEl, floatingEl) {
+            this.cleanup = autoUpdate(referenceEl, floatingEl, () => {
+                this.position(referenceEl, floatingEl);
             });
         },
         stopAutoUpdate() {
@@ -296,29 +311,18 @@ document.addEventListener('alpine:init', () => {
             }
         },
         closeOnEscape() {
-            this._escapeHandler = (e) => {
-                if (e.key === 'Escape') this.open = false;
-            };
+            this._escapeHandler = (e) => e.key === 'Escape' && (this.open = false);
             window.addEventListener('keydown', this._escapeHandler);
         },
         closeOnScroll() {
-            this._scrollHandler = () => {
-                this.open = false;
-            };
+            this._scrollHandler = () => (this.open = false);
             window.addEventListener('scroll', this._scrollHandler, true);
             window.addEventListener('resize', this._scrollHandler);
         },
         removeGlobalListeners() {
-            if (this._escapeHandler) {
-                window.removeEventListener('keydown', this._escapeHandler);
-                this._escapeHandler = null;
-            }
-
-            if (this._scrollHandler) {
-                window.removeEventListener('scroll', this._scrollHandler, true);
-                window.removeEventListener('resize', this._scrollHandler);
-                this._scrollHandler = null;
-            }
+            window.removeEventListener('keydown', this._escapeHandler);
+            window.removeEventListener('scroll', this._scrollHandler, true);
+            window.removeEventListener('resize', this._scrollHandler);
         }
     }));
 

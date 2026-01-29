@@ -48,10 +48,12 @@ new class extends Component
                         <a href="{{ route('panel.users.index') }}" wire:navigate class="flex items-center gap-2 px-3 py-2 text-sm text-gray-600 hover:bg-[#F3F4F6] hover:text-[#33CC33] rounded-lg">
                             <i class="la la-user"></i>Usuários
                         </a>
+                        <div class="h-px bg-gray-100 my-1"></div>
                         @endcan
                         <a href="{{ route('panel.students.index') }}" wire:navigate class="flex items-center gap-2 px-3 py-2 text-sm text-gray-600 hover:bg-[#F3F4F6] hover:text-[#33CC33] rounded-lg">
                             <i class="la la-user-graduate"></i>Alunos
                         </a>
+                        <div class="h-px bg-gray-100 my-1"></div>
                         <a href="{{ route('panel.courses.index') }}" wire:navigate class="flex items-center gap-2 px-3 py-2 text-sm text-gray-600 hover:bg-[#F3F4F6] hover:text-[#33CC33] rounded-lg">
                             <i class="la la-book-open"></i>Cursos
                         </a>

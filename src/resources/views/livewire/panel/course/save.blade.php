@@ -1,7 +1,7 @@
-<div class="flex flex-col gap-10">
+<div class="flex flex-col gap-10 pt-14 pb-16 px-6">
 
     <!-- Page Header -->
-    <section class="px-6 pt-14">
+    <section>
 
         <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-8">
 
@@ -27,14 +27,14 @@
     </section>
 
     <!-- Page Content -->
-    <section class="px-6">
+    <section>
 
         <div class="bg-white rounded-2xl shadow-sm border border-[#E5E7EB] p-8"></div>
 
     </section>
 
     <!-- Bottom Actions -->
-    <section class="px-6 pb-16">
+    <section>
 
         <div class="flex flex-col sm:flex-row justify-between items-center gap-3">
             <a href="{{ route('panel.courses.index') }}" wire:navigate class="inline-flex items-center justify-center gap-2 border border-[#E5E7EB] text-gray-600 hover:bg-gray-50 text-sm px-6 py-2.5 rounded-lg font-semibold w-full sm:w-auto hover:text-[#2CAA2C] transition">

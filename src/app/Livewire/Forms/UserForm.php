@@ -3,6 +3,7 @@
 namespace App\Livewire\Forms;
 
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
@@ -11,15 +12,15 @@ use Livewire\Form;
 class UserForm extends Form
 {
     public ?string $ulid = null;
-    public string $name;
-    public string $email;
-    public string $password;
-    public string $password_confirmation;
-    public string $role;
-    public string $at;
-    public string $status;
-    public ?string $cpf_cnpj;
-    public ?string $date_birth;
+    public string $name = '';
+    public string $email = '';
+    public string $password = '';
+    public string $password_confirmation = '';
+    public string $role = '';
+    public string $at = '';
+    public string $status = '';
+    public ?string $cpf_cnpj = null;
+    public ?string $date_birth = null;
 
     public function isEditing(): bool
     {
@@ -38,7 +39,7 @@ class UserForm extends Form
         $this->status = $user->status;
         $this->at = $user->at;
         $this->cpf_cnpj = $user->cpf_cnpj ?? '';
-        $this->date_birth = $user->date_birth ?? '';
+        $this->date_birth = $user->date_birth ? Carbon::createFromFormat('Y-m-d', $user->date_birth)->format('d/m/Y') : null;
     }
 
     public function save()
@@ -69,7 +70,7 @@ class UserForm extends Form
             'status' => $this->status,
             'at' => $this->at ?: Str::slug($this->name),
             'cpf_cnpj' => $this->cpf_cnpj ?: null,
-            'date_birth' => $this->date_birth ?: null,
+            'date_birth' => $this->date_birth ? Carbon::createFromFormat('d/m/Y', $this->date_birth)->format('Y-m-d')  : null,
         ];
 
         // Só altera senha se tiver preenchida
@@ -83,6 +84,15 @@ class UserForm extends Form
     private function getUser(string $ulid): ?User
     {
         return User::where('ulid', $ulid)->first();
+    }
+
+    protected function prepareForValidation($attributes)
+    {
+        if (!empty($attributes['date_birth'])) {
+            $attributes['date_birth'] = Carbon::createFromFormat('d/m/Y',  $attributes['date_birth'])->format('Y-m-d');
+        }
+
+        return $attributes;
     }
 
     protected function rules()
