@@ -46,6 +46,6 @@ class Index extends Component
     #[Computed]
     public function courses()
     {
-        return Course::paginate(1);
+        return Course::paginate(15);
     }
 }
