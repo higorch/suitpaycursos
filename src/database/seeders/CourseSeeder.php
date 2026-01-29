@@ -12,7 +12,7 @@ class CourseSeeder extends Seeder
 {
     public function run(): void
     {
-        // Busca dois professores
+        // Professores
         $teachers = User::where('role', 'teacher')->take(2)->get();
 
         if ($teachers->count() < 2) {
@@ -20,7 +20,7 @@ class CourseSeeder extends Seeder
             return;
         }
 
-        // CRIAR ALUNOS VINCULADOS AOS PROFESSORES
+        // Alunos vinculados aos professores
         $studentsForTeachers = [
             $teachers[0]->id => [
                 ['name' => 'Lucas Andrade', 'email' => 'lucas.andrade@mail.com'],
@@ -34,7 +34,6 @@ class CourseSeeder extends Seeder
 
         foreach ($studentsForTeachers as $teacherId => $students) {
             foreach ($students as $student) {
-
                 User::firstOrCreate(
                     ['email' => $student['email']],
                     [
@@ -54,7 +53,7 @@ class CourseSeeder extends Seeder
             }
         }
 
-        // CRIAR ALUNOS SEM PROFESSOR
+        // Alunos sem professor
         $independentStudents = [
             ['name' => 'Juliana Martins', 'email' => 'juliana.martins@mail.com'],
             ['name' => 'Bruno Almeida', 'email' => 'bruno.almeida@mail.com'],
@@ -81,27 +80,31 @@ class CourseSeeder extends Seeder
 
         $this->command->info('Alunos criados com sucesso.');
 
-        // CRIAR CURSOS E DISTRIBUIR ENTRE OS PROFESSORES
+        // Cursos
         $courses = [
             [
                 'name' => 'Curso Gratuito de Laravel Livewire',
                 'description' => 'Aprenda a construir interfaces dinâmicas e reativas no Laravel usando Livewire.',
                 'video' => 'https://www.youtube.com/watch?v=lMNpKM3TbJw',
+                'delivery_mode' => 'online',
             ],
             [
                 'name' => 'Curso Gratuito de TailwindCSS',
                 'description' => 'Crie layouts modernos e responsivos com TailwindCSS.',
                 'video' => 'https://www.youtube.com/watch?v=w4xS1ZdTcr8',
+                'delivery_mode' => 'online',
             ],
             [
                 'name' => 'Curso de Alpine.js',
                 'description' => 'Aprenda Alpine.js para adicionar interatividade ao HTML.',
                 'video' => 'https://www.youtube.com/watch?v=rT3MAmX-jxI',
+                'delivery_mode' => 'hybrid',
             ],
             [
                 'name' => 'Curso de Laravel',
                 'description' => 'Do básico ao avançado no Laravel.',
                 'video' => 'https://www.youtube.com/watch?v=SnOlhaJTMTA',
+                'delivery_mode' => 'in-person',
             ],
         ];
 
@@ -113,7 +116,6 @@ class CourseSeeder extends Seeder
                 continue;
             }
 
-            // Alterna os cursos entre os dois professores
             $teacher = $teachers[$index % 2];
 
             Course::create([
@@ -123,7 +125,7 @@ class CourseSeeder extends Seeder
                 'slug' => $slug,
                 'presentation_video_url' => $course['video'],
                 'status' => 'activated',
-                'delivery_mode' => 'online',
+                'delivery_mode' => $course['delivery_mode'],
                 'max_enrollments' => rand(30, 70),
                 'enrollment_deadline' => now()->addDays(rand(30, 60)),
             ]);
