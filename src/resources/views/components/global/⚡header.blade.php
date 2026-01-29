@@ -17,7 +17,7 @@ new class extends Component
 };
 ?>
 
-<header x-data="{ open:false }" class="bg-white/80 backdrop-blur border-b border-[#E5E7EB] sticky top-0 z-50">
+<header x-data="{ open:false }" class="bg-white/80 backdrop-blur border-b border-[#E5E7EB] sticky top-0 z-9999">
     
     <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
 

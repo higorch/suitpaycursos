@@ -17,7 +17,7 @@
             <div class="w-full md:w-auto">
                 <div class="flex flex-col sm:flex-row gap-3 md:justify-end">
                     <a href="#" wire:click.prevent="submit" class="inline-flex items-center justify-center gap-2 bg-[#2CAA2C] hover:bg-[#259C25] text-white text-sm px-6 py-2.5 rounded-lg font-semibold shadow-sm transition w-full sm:w-auto">
-                        <i class="la la-save"></i>Salvar
+                        <i class="la la-save text-lg"></i>Salvar
                     </a>
                 </div>
             </div>
@@ -180,11 +180,11 @@
     <section class="px-6 pb-16">
 
         <div class="flex flex-col sm:flex-row justify-between items-center gap-3">
-            <a href="{{ route('panel.users.index') }}" wire:navigate class="inline-flex items-center justify-center gap-2 border border-[#E5E7EB] text-gray-600 hover:bg-gray-50 text-sm px-6 py-2.5 rounded-lg font-semibold transition w-full sm:w-auto">
-                <i class="la la-arrow-left"></i>Voltar
+            <a href="{{ route('panel.users.index') }}" wire:navigate class="inline-flex items-center justify-center gap-2 border border-[#E5E7EB] text-gray-600 hover:bg-gray-50 text-sm px-6 py-2.5 rounded-lg font-semibold w-full sm:w-auto hover:text-[#2CAA2C] transition">
+                <i class="la la-arrow-left text-lg"></i> Voltar
             </a>
             <a href="#" wire:click.prevent="submit" class="inline-flex items-center justify-center gap-2 bg-[#2CAA2C] hover:bg-[#259C25] text-white text-sm px-6 py-2.5 rounded-lg font-semibold shadow-sm transition w-full sm:w-auto">
-                <i class="la la-save"></i>Salvar
+                <i class="la la-save text-lg"></i>Salvar
             </a>
         </div>
 
