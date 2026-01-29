@@ -93,7 +93,7 @@ Você será redirecionado para a tela de login.
 
 ## 🔐 Logins de teste
 
-**Senha padrão para todos:**  
+**Senha padrão para TODOS os usuários de teste:**  
 `password`
 
 ### 👑 Administrador
