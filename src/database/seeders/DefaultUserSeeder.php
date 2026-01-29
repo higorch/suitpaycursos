@@ -19,11 +19,6 @@ class DefaultUserSeeder extends Seeder
                 'role' => 'admin'
             ],
             [
-                'email' => 'higorchristianfe@gmail.com',
-                'name' => 'Higor Ferreira',
-                'role' => 'admin'
-            ],
-            [
                 'email' => 'maria@gmail.com',
                 'name' => 'Maria Santos',
                 'role' => 'teacher'

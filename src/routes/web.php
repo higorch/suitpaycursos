@@ -35,7 +35,7 @@ Route::group(['prefix' => 'panel', 'as' => 'panel.', 'middleware' => ['user.auth
     Route::group(['prefix' => 'courses', 'as' => 'courses.'], function () {
         Route::livewire('/', App\Livewire\Panel\Course\Index::class)->name('index');
         Route::livewire('/save', App\Livewire\Panel\Course\Save::class)->name('save');
-        Route::livewire('/{ulid}/save', App\Livewire\Panel\Course\Save::class)->name('edit');
+        Route::livewire('/{id}/save', App\Livewire\Panel\Course\Save::class)->name('edit');
     });
 });
 

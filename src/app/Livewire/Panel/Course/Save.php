@@ -17,10 +17,10 @@ class Save extends Component
         ])->title($this->pageTitle);
     }
 
-    public function mount($ulid = null)
+    public function mount($id = null)
     {
-        if ($ulid) {
-            $this->form->edit($ulid);
+        if ($id) {
+            $this->form->edit($id);
         }
     }
 
@@ -43,16 +43,14 @@ class Save extends Component
         $this->validate();
 
         try {
-            $user = $this->form->save();
+            $course = $this->form->save();
 
             session()->flash('success', 'Informações salvas com sucesso.');
 
             return $this->redirectRoute('panel.courses.edit', [
-                'ulid' => $user->ulid
+                'id' => $course->id
             ], navigate: true);
         } catch (\Exception $e) {
-
-            dd($e);
             $this->dispatch('notify', msg: 'Não foi possível salvar.', type: 'error');
         }
     }

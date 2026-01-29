@@ -51,8 +51,6 @@ class Save extends Component
                 'ulid' => $user->ulid
             ], navigate: true);
         } catch (\Exception $e) {
-
-            dd($e);
             $this->dispatch('notify', msg: 'Não foi possível salvar.', type: 'error');
         }
     }

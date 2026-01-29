@@ -9,8 +9,8 @@ use Livewire\Form;
 
 class CourseForm extends Form
 {
-    public ?string $ulid = null;
-    public string $teacher_id = '';
+    public ?string $id = null;
+    public ?int $teacher_id = null;
     public string $name = '';
     public string $description = '';
     public string $slug = '';
@@ -22,15 +22,15 @@ class CourseForm extends Form
 
     public function isEditing(): bool
     {
-        return filled($this->ulid);
+        return filled($this->id);
     }
 
-    public function edit(string $ulid): void
+    public function edit(string $id): void
     {
-        $course = $this->getCourse($ulid);
+        $course = $this->getCourse($id);
         if (!$course) return;
 
-        $this->ulid = $course->ulid;
+        $this->id = $course->id;
         $this->teacher_id = $course->teacher_id;
         $this->name = $course->name;
         $this->description = $course->description;
@@ -39,7 +39,7 @@ class CourseForm extends Form
         $this->status = $course->status;
         $this->delivery_mode = $course->delivery_mode;
         $this->max_enrollments = $course->max_enrollments;
-        $this->enrollment_deadline = $course->enrollment_deadline ? Carbon::createFromFormat('Y-m-d', $course->enrollment_deadline)->format('d/m/Y') : null;
+        $this->enrollment_deadline = $course->enrollment_deadline ? Carbon::parse($course->enrollment_deadline)->format('d/m/Y') : null;
     }
 
     public function save(): ?Course
@@ -54,7 +54,7 @@ class CourseForm extends Form
 
     protected function update(): ?Course
     {
-        $course = $this->getCourse($this->ulid);
+        $course = $this->getCourse($this->id);
         if (!$course) return null;
 
         $course->update($this->getCourseData());
@@ -64,10 +64,10 @@ class CourseForm extends Form
     protected function getCourseData(): array
     {
         $data = [
-            'teacher_id' => $this->teacher_id,
+            'teacher_id' => $this->teacher_id ?? auth()->id(),
             'name' => $this->name,
             'description' => $this->description,
-            'slug' => rtrim(Str::slug(data_get($this->slug, 'slug')), '-'),
+            'slug' => rtrim(Str::slug($this->slug), '-'),
             'presentation_video_url' => $this->presentation_video_url,
             'status' => $this->status,
             'delivery_mode' => $this->delivery_mode,
@@ -78,9 +78,9 @@ class CourseForm extends Form
         return $data;
     }
 
-    private function getCourse(string $ulid): ?Course
+    private function getCourse(string $id): ?Course
     {
-        return Course::where('ulid', $ulid)->first();
+        return Course::where('id', $id)->first();
     }
 
     protected function prepareForValidation($attributes): array
