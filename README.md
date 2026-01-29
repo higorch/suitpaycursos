@@ -27,7 +27,7 @@ cd suitpaycursos
 docker compose up -d
 ```
 
-Aguarde cerca de **15 segundos** para o MySQL iniciar completamente.
+Aguarde cerca de **15 segundos** para o MySQL iniciar completamente, mesmo depois de todos conteiners docker forem criados.
 
 ---
 
