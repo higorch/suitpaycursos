@@ -14,6 +14,7 @@ class Course extends Model
         'teacher_id',
         'name',
         'description',
+        'slug',
         'presentation_video_url',
         'status',
         'delivery_mode',

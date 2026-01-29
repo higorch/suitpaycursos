@@ -3,7 +3,6 @@
 namespace App\Livewire\Panel\User;
 
 use App\Livewire\Forms\UserForm;
-use Exception;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
 

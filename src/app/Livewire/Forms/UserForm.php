@@ -42,17 +42,17 @@ class UserForm extends Form
         $this->date_birth = $user->date_birth ? Carbon::createFromFormat('Y-m-d', $user->date_birth)->format('d/m/Y') : null;
     }
 
-    public function save()
+    public function save(): ?User
     {
         return $this->isEditing() ? $this->update() : $this->create();
     }
 
-    public function create()
+    protected function create(): ?User
     {
         return User::create($this->getUserData());
     }
 
-    public function update()
+    protected function update(): ?User
     {
         $user = $this->getUser($this->ulid);
         if (!$user) return null;
@@ -86,7 +86,7 @@ class UserForm extends Form
         return User::where('ulid', $ulid)->first();
     }
 
-    protected function prepareForValidation($attributes)
+    protected function prepareForValidation($attributes): array
     {
         if (!empty($attributes['date_birth'])) {
             $attributes['date_birth'] = Carbon::createFromFormat('d/m/Y',  $attributes['date_birth'])->format('Y-m-d');
@@ -95,7 +95,7 @@ class UserForm extends Form
         return $attributes;
     }
 
-    protected function rules()
+    protected function rules(): array
     {
         $userId = $this->ulid ? User::where('ulid', $this->ulid)->value('id') : null;
 
@@ -138,7 +138,7 @@ class UserForm extends Form
         return $rules;
     }
 
-    protected function messages()
+    protected function messages(): array
     {
         return [
             'password_confirmation.same' => __('validation.confirmed'),

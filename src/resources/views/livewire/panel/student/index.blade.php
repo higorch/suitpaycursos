@@ -27,7 +27,7 @@
     <section>
         @if ($students->isEmpty())
             <div class="rounded-xl border border-[#E5E7EB] bg-[#F9FAFB] px-6 py-8 text-center">
-                <p class="text-sm text-gray-500">Nenhum usuário cadastrado.</p>
+                <p class="text-sm text-gray-500">Nenhum aluno cadastrado.</p>
             </div>
             @else
 
