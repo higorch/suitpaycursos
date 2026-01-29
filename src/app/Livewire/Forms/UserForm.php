@@ -18,7 +18,7 @@ class UserForm extends Form
     public string $password_confirmation = '';
     public string $role = '';
     public string $at = '';
-    public string $status = '';
+    public string $status = 'activated';
     public ?string $cpf_cnpj = null;
     public ?string $date_birth = null;
 
@@ -101,8 +101,8 @@ class UserForm extends Form
 
         $rules = [
             'name' => ['required'],
-            'status' => ['required'],
-            'role' => ['required'],
+            'status' => ['required', 'in:activated,disabled'],
+            'role' => ['required', 'in:admin,teacher,student'],
             'cpf_cnpj' => ['nullable', 'cpf_ou_cnpj'],
             'date_birth' => ['nullable', 'date'],
             'at' => [

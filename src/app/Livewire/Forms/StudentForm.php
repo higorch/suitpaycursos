@@ -17,7 +17,7 @@ class StudentForm extends Form
     public string $password = '';
     public string $password_confirmation = '';
     public string $at = '';
-    public string $status = '';
+    public string $status = 'activated';
     public ?string $cpf_cnpj = null;
     public ?string $date_birth = null;
 
@@ -99,7 +99,7 @@ class StudentForm extends Form
 
         $rules = [
             'name' => ['required'],
-            'status' => ['required'],
+            'status' => ['required', 'in:activated,disabled'],
             'cpf_cnpj' => ['nullable', 'cpf_ou_cnpj'],
             'date_birth' => ['nullable', 'date'],
             'at' => [

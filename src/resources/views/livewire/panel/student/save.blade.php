@@ -127,7 +127,7 @@
                 <!-- STATUS -->
                 <div class="relative col-span-12 md:col-span-12 flex flex-col gap-2">
                     <label class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Status</label>
-                    <select x-data="choices($wire.entangle('form.status'), '---', '', 'auto', true)">
+                    <select x-data="choices($wire.entangle('form.status'), '---', '', 'auto', false)">
                         <option value="activated">Ativo</option>
                         <option value="disabled">Desativado</option>
                     </select>
