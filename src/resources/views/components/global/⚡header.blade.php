@@ -30,12 +30,12 @@ new class extends Component
 
             <nav class="hidden md:flex items-center gap-10 text-sm font-medium">
                 @if(request()->routeIs('student.*'))
-                    <a href="{{ route('student.dashboard.index') }}" wire:navigate class="flex items-center gap-2 text-gray-500 hover:text-[#33CC33] transition">
-                        <i class="las la-tachometer-alt text-lg"></i> Dashboard
+                    <a href="{{ route('student.catalogs.index') }}" wire:navigate class="flex items-center gap-2 text-gray-500 hover:text-[#33CC33] transition">
+                        <i class="las la-tachometer-alt text-lg"></i> Catalogo
                     </a>
                 @else
                     <a href="{{ route('panel.dashboard.index') }}" wire:navigate class="flex items-center gap-2 text-gray-500 hover:text-[#33CC33] transition">
-                        <i class="las la-tachometer-alt text-lg"></i> Dashboard
+                        <i class="las la-boxes text-lg"></i> Catálogo
                     </a>
                 @endif
 
@@ -109,7 +109,7 @@ new class extends Component
                 </a>
             @endif
 
-            <a href="{{ route('panel.profile.index') }}" wire:navigate class="flex items-center gap-3 hover:opacity-90 transition">
+            <a href="{{ request()->routeIs('student.*') ? route('student.profile.index') : route('panel.profile.index') }}" wire:navigate class="flex items-center gap-3 hover:opacity-90 transition">
                 <span class="hidden sm:block text-sm text-gray-600 font-medium">{{ auth()->user()->name ?? 'Usuário' }}</span>
                 <div class="w-9 h-9 rounded-full bg-linear-to-br from-[#33CC33] to-[#2CAA2C] flex items-center justify-center text-white font-bold shadow">
                     {{ strtoupper(substr(auth()->user()->name ?? 'U', 0, 1)) }}
@@ -123,8 +123,8 @@ new class extends Component
 
         <div class="space-y-2">
             @if(request()->routeIs('student.*'))
-                <a href="{{ route('student.dashboard.index') }}" wire:navigate class="flex items-center gap-3 py-2 text-gray-600 hover:text-[#33CC33]">
-                    <i class="las la-tachometer-alt text-lg"></i> Dashboard
+                <a href="{{ route('student.catalogs.index') }}" wire:navigate class="flex items-center gap-3 py-2 text-gray-600 hover:text-[#33CC33]">
+                    <i class="las la-boxes text-lg"></i> Catálogo
                 </a>
                 <a href="{{ route('student.courses.index') }}" wire:navigate class="flex items-center gap-3 py-2 text-gray-600 hover:text-[#33CC33]">
                     <i class="la la-book text-lg"></i> Meus Cursos

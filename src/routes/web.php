@@ -46,8 +46,9 @@ Route::group(['prefix' => 'student', 'as' => 'student.', 'middleware' => ['user.
         Route::livewire('/', App\Livewire\Student\Profile\Index::class)->name('index');
     });
 
-    Route::group(['prefix' => 'dashboard', 'as' => 'dashboard.'], function () {
-        Route::livewire('/', App\Livewire\Student\Dashboard\Index::class)->name('index');
+    Route::group(['prefix' => 'catalogs', 'as' => 'catalogs.'], function () {
+        Route::livewire('/', App\Livewire\Student\Catalog\Index::class)->name('index');
+        Route::livewire('creator/{at}/course/{slug}/', App\Livewire\Student\Catalog\Single::class)->name('single');
     });
 
     Route::group(['prefix' => 'courses', 'as' => 'courses.'], function () {
@@ -56,5 +57,6 @@ Route::group(['prefix' => 'student', 'as' => 'student.', 'middleware' => ['user.
 });
 
 // public
-Route::livewire('/', App\Livewire\Public\Home::class)->name('home');
-Route::livewire('/course/{slug}', App\Livewire\Public\Course::class)->name('course');
+Route::get('/', function () {
+    return redirect()->route('auth.login');
+});
