@@ -14,6 +14,11 @@ class DefaultUserSeeder extends Seeder
     {
         $users = [
             [
+                'email' => 'suitpay@gmail.com',
+                'name' => 'Suitpay',
+                'role' => 'admin'
+            ],
+            [
                 'email' => 'higorchristianfe@gmail.com',
                 'name' => 'Higor Ferreira',
                 'role' => 'admin'
@@ -24,8 +29,18 @@ class DefaultUserSeeder extends Seeder
                 'role' => 'teacher'
             ],
             [
+                'email' => 'joao@gmail.com',
+                'name' => 'João Marcos',
+                'role' => 'teacher'
+            ],
+            [
                 'email' => 'gustavo@gmail.com',
                 'name' => 'Gustavo Silva',
+                'role' => 'student'
+            ],
+            [
+                'email' => 'danilo@gmail.com',
+                'name' => 'Danilo Canhoto',
                 'role' => 'student'
             ],
         ];
