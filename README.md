@@ -1,10 +1,10 @@
-# 🚀 SuitPay Cursos — Ambiente de Testes (Laravel + Docker)
+# 🚀 SuitPay Cursos — Rodando Local com Docker
 
-Este projeto utiliza **Docker** para rodar a aplicação Laravel localmente, sem necessidade de instalar PHP, MySQL ou Nginx diretamente na sua máquina.
+Projeto Laravel configurado para rodar 100% via **Docker**.
 
 ---
 
-## 📦 Requisitos
+## ✅ Requisitos
 
 - Docker  
 - Docker Compose  
@@ -12,19 +12,26 @@ Este projeto utiliza **Docker** para rodar a aplicação Laravel localmente, sem
 
 ---
 
-## 📥 Clonar o repositório e subir o ambiente
+## 📥 Clonar o projeto
 
 ```bash
 git clone https://github.com/higorch/suitpaycursos.git
 cd suitpaycursos
-docker compose up -d
 ```
-
-⏳ Aguarde cerca de **15 segundos** para o MySQL inicializar, mesmo depois de todos containers criados.
 
 ---
 
-## ⚙️ Configuração inicial do Laravel
+## 🐳 Subir os containers
+
+```bash
+docker compose up -d
+```
+
+Aguarde cerca de **15 segundos** para o MySQL iniciar completamente.
+
+---
+
+## ⚙️ Configuração inicial
 
 Entre no container da aplicação:
 
@@ -32,7 +39,7 @@ Entre no container da aplicação:
 docker exec -it app bash
 ```
 
-Agora, **dentro do container**, execute:
+Dentro do container rode:
 
 ```bash
 composer install
@@ -42,7 +49,7 @@ php artisan key:generate
 
 ---
 
-## 🛠️ Configurar o `.env`
+## 🛠️ Configurar o banco
 
 Edite o arquivo `src/.env` e deixe assim:
 
@@ -57,37 +64,74 @@ DB_PASSWORD=secret
 
 ---
 
-## 🗄️ Rodar as migrations
+## 🗄️ Criar banco e dados de teste
 
 Ainda dentro do container:
 
 ```bash
-php artisan migrate
-```
-
-Depois pode sair com:
-
-```bash
+php artisan migrate --seed
 exit
 ```
 
+Isso cria automaticamente:
+- Usuários
+- Criadores
+- Alunos
+- Cursos
+
 ---
 
-## 🌐 Acessar a aplicação
+## 🌐 Acessar o sistema
 
 Abra no navegador:
 
-👉 **http://localhost:8029**
+**http://localhost:8029**
+
+Você será redirecionado para a tela de login.
 
 ---
 
-## 🧠 Informações do ambiente
+## 🔐 Logins de teste
 
-| Serviço | Função | Porta externa |
-|--------|--------|---------------|
-| Nginx | Servidor web | 8029 |
-| Laravel (app) | Aplicação PHP | — |
-| MySQL 8 | Banco de dados | 3329 |
+**Senha padrão para todos:**  
+`password`
 
-> A porta **3329** é apenas para acesso externo (ex: MySQL Workbench).  
-> Entre os containers, o Laravel usa a porta interna **3306**.
+### 👑 Administrador
+Email: **suitpay@mail.com**
+
+Acesso completo ao painel administrativo.
+
+---
+
+### 🎓 Criadores (Professores)
+
+- **maria@mail.com**  
+- **joao@mail.com**
+
+Responsáveis pelos cursos na plataforma.
+
+---
+
+### 👨‍🎓 Alunos
+
+- **gustavo@mail.com** (Criadora: Maria)  
+- **danilo@mail.com** (Criador: João)
+
+Acessam o catálogo e os cursos matriculados.
+
+---
+
+## 🧠 Portas dos serviços
+
+| Serviço | Porta |
+|--------|------|
+| Aplicação (Nginx) | **8029** |
+| MySQL (acesso externo) | **3329** |
+
+> Internamente o Laravel usa a porta **3306** para o banco.
+
+---
+
+## ✅ Pronto
+
+Subiu os containers, rodou `migrate --seed`, já pode logar e testar o sistema completo.
