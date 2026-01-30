@@ -4,8 +4,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/jpg" sizes="32x32" href="{{ asset('assets/images/favicon.jpg') }}">
     <title>{{ $title ?? '' }} - {{ config('app.name') }}</title>
-
     @livewireStyles
     <link rel="stylesheet" href="{{ mix('assets/css/styles.css') }}">
     <link rel="stylesheet" href="{{ mix('assets/icons/line-awesome/css/line-awesome.min.css') }}">
