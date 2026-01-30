@@ -8,7 +8,7 @@
 
             <!-- HEADER -->
             <div class="flex items-center w-full px-6 py-5 border-b border-[#E5E7EB]">
-                <p class="font-medium text-base md:text-xl text-[#111827]">Filtrar Usuários</p>
+                <p class="font-medium text-base md:text-xl text-[#111827]">Filtrar Cursos</p>
             </div>
 
             <!-- BODY -->
@@ -27,31 +27,38 @@
 
                     <!-- TIPO -->
                     <div class="relative col-span-12 md:col-span-6 flex flex-col gap-2">
-                        <label class="label-input-basic">Tipo de usuário</label>
-                        <select x-data="choices($wire.entangle('fields.role'), 'Todos', '', 'auto', true)">
-                            <option value="">Todos</option>
-                            <option value="admin">Administrador</option>
-                            <option value="creator">Criador</option>
-                            <option value="student">Aluno</option>
+                        <label class="label-input-basic">Modalidade</label>
+                        <select x-data="choices($wire.entangle('fields.delivery_mode'), 'Todos', '', 'auto', true)">
+                            <option value="">Todas</option>
+                            <option value="online">On-Line</option>
+                            <option value="in-person">Presencial</option>
+                            <option value="hybrid">Híbrido</option>
                         </select>
                     </div>
 
+                    <!-- CREATOR -->
+                    @if (Auth::user()->role === 'admin')
+                    <div class="relative col-span-12 md:col-span-12 flex flex-col gap-2">
+                        <label class="label-input-basic">Criador</label>
+                        <select x-data="choices($wire.entangle('fields.creator'), 'Todos', '', 'auto', true)">
+                            <option value="">Todos</option>
+                            @foreach ($creators as $creator)
+                                <option value="{{ $creator->ulid }}">{{ $creator->name }}</option>
+                            @endforeach                            
+                        </select>
+                    </div>
+                    @endif
+
                     <!-- NOME -->
                     <div class="relative col-span-12 flex flex-col gap-2">
-                        <label class="label-input-basic">Nome</label>
+                        <label class="label-input-basic">Nome do curso</label>
                         <input type="text" wire:model.defer="fields.name" class="input-basic">
                     </div>
 
-                    <!-- EMAIL -->
+                    <!-- MAXIMO DE VAGAS -->
                     <div class="relative col-span-12 flex flex-col gap-2">
-                        <label class="label-input-basic">E-mail</label>
-                        <input type="text" wire:model.defer="fields.email" class="input-basic">
-                    </div>
-
-                    <!-- CPF / CNPJ -->
-                    <div class="relative col-span-12 flex flex-col gap-2">
-                        <label class="label-input-basic">CPF / CNPJ</label>
-                        <input type="text" wire:model="fields.cpf_cnpj" class="input-basic" x-data="mask" data-inputmask="'mask': ['999.999.999-99', '99.999.999/9999-99'], 'keepStatic': true">
+                        <label class="label-input-basic">máx. de matrículas aberta (<=)</label>
+                        <input type="text" wire:model.defer="fields.max_enrollments" class="input-basic" x-data="mask" data-inputmask="'alias': 'numeric', 'digits': 0, 'rightAlign': false, 'allowMinus': false">
                     </div>
 
                 </div>

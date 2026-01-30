@@ -8,7 +8,7 @@
 
             <!-- HEADER -->
             <div class="flex items-center w-full px-6 py-5 border-b border-[#E5E7EB]">
-                <p class="font-medium text-base md:text-xl text-[#111827]">Filtrar Usuários</p>
+                <p class="font-medium text-base md:text-xl text-[#111827]">Filtrar Alunos</p>
             </div>
 
             <!-- BODY -->
@@ -16,23 +16,12 @@
                 <div class="grid grid-cols-12 gap-6">
 
                     <!-- STATUS -->
-                    <div class="relative col-span-12 md:col-span-6 flex flex-col gap-2">
+                    <div class="relative col-span-12 md:col-span-12 flex flex-col gap-2">
                         <label class="label-input-basic">Status</label>
                         <select x-data="choices($wire.entangle('fields.status'), 'Todos', '', 'auto', true)">
                             <option value="">Todos</option>
                             <option value="activated">Ativo</option>
                             <option value="disabled">Inativo</option>
-                        </select>
-                    </div>
-
-                    <!-- TIPO -->
-                    <div class="relative col-span-12 md:col-span-6 flex flex-col gap-2">
-                        <label class="label-input-basic">Tipo de usuário</label>
-                        <select x-data="choices($wire.entangle('fields.role'), 'Todos', '', 'auto', true)">
-                            <option value="">Todos</option>
-                            <option value="admin">Administrador</option>
-                            <option value="creator">Criador</option>
-                            <option value="student">Aluno</option>
                         </select>
                     </div>
 

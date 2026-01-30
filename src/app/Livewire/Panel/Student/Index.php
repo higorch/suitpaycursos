@@ -14,12 +14,33 @@ class Index extends Component
 {
     use WithPagination;
 
+    public int $perPage = 15;
+    public array $search = [];
+
     #[Title('Alunos')]
     public function render()
     {
         return view('livewire.panel.student.index', [
             'students' => $this->students
         ]);
+    }
+
+    public function updatedSearch()
+    {
+        $this->resetPage();
+    }
+
+    #[On('refresh')]
+    public function refresh()
+    {
+        $this->setPage($this->getPage());
+    }
+
+    #[On('set-filter-fields')]
+    public function setFilterFields($fields)
+    {
+        $this->search = $fields;
+        $this->resetPage();
     }
 
     #[On('action-delete')]
@@ -49,16 +70,23 @@ class Index extends Component
     {
         $user = Auth::user();
 
-        // Admin vê todos os alunos
-        if ($user->role === 'admin') {
-            return User::where('role', 'student')->paginate(15);
-        }
+        $query = User::query()->where('role', 'student')->when(data_get($this->search, 'name'), function ($query, $term) {
+            $query->where('name', 'like', "%{$term}%");
+        })->when(data_get($this->search, 'email'), function ($query, $term) {
+            $query->where('email', 'like', "%{$term}%");
+        })->when(data_get($this->search, 'cpf_cnpj'), function ($query, $term) {
+            $query->where('cpf_cnpj', 'like', "%{$term}%");
+        })->when(data_get($this->search, 'status'), function ($query, $term) {
+            $query->where('status', $term);
+        });
 
-        // Criador vê alunos vinculados a ele, OU alunos matriculados em cursos dele
-        return User::where('role', 'student')->where(function ($query) use ($user) {
-            $query->where('creator_id', $user->id)->orWhereHas('enrollments.course', function ($query) use ($user) {
-                $query->where('creator_id', $user->id);
-            });
-        })->distinct()->paginate(15);
+        if ($user->role === 'admin') return $query->latest()->paginate($this->perPage);
+
+        return $query->where(function ($query) use ($user) {
+            $query->where('creator_id', $user->id)
+                ->orWhereHas('enrollments.course', function ($query) use ($user) {
+                    $query->where('creator_id', $user->id);
+                });
+        })->distinct()->latest()->paginate($this->perPage);
     }
 }

@@ -1,37 +1,58 @@
-<div class="flex flex-col gap-10 pt-14 pb-16 px-6">
+<div x-data="indexStudents" x-bind="events" class="flex flex-col gap-10 pt-14 pb-16 px-6">
 
     <!-- Page Header -->
-    <section>
+    <section wire:key="header" class="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
 
-        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-8">
+        <h1 class="text-3xl font-semibold tracking-tight text-[#111827]">Alunos</h1>
 
-            <!-- Title + Back -->
-            <div class="flex items-center gap-4">
-                <h1 class="text-3xl font-semibold tracking-tight text-[#111827]">Alunos</h1>
+        <div class="w-full lg:w-auto flex flex-col gap-3 lg:flex-row lg:items-center lg:gap-3">
+
+            <!-- Select -->
+            <div class="w-full lg:w-56">
+                <select class="h-11 w-full" x-data="choices($wire.entangle('perPage').live, 'Por página', '', 'auto', false)">
+                    <option value="5">5 por página</option>
+                    <option value="10">10 por página</option>
+                    <option value="15">15 por página</option>
+                    <option value="25">25 por página</option>
+                    <option value="50">50 por página</option>
+                    <option value="100">100 por página</option>
+                </select>
             </div>
 
-            <!-- Top Save -->
-            <div class="w-full md:w-auto">
-                <div class="flex flex-col sm:flex-row gap-3 md:justify-end">
-                    <a href="{{ route('panel.students.save') }}" wire:navigate class="inline-flex items-center justify-center gap-2 bg-[#2CAA2C] hover:bg-[#259C25] text-white text-sm px-6 py-2.5 rounded-lg font-semibold shadow-sm transition w-full sm:w-auto">
-                        <i class="la la-plus text-lg"></i> Novo
+            <!-- Ações -->
+            <div class="flex w-full lg:w-auto gap-3">
+
+                <!-- GRUPO FILTRO -->
+                <div class="flex w-full lg:w-auto">
+                    @if(collect($search)->filter()->isNotEmpty())
+                    <a href="#" wire:click.prevent="$set('search', [])" class="h-11 w-1/2 lg:w-11 inline-flex items-center justify-center bg-red-600 hover:bg-red-700 text-white rounded-l-lg shadow-sm transition">
+                        <i class="la la-times text-lg"></i>
+                    </a>
+                    @endif
+                    <a href="#" @click.prevent="$dispatch('open-modal-filter', {fields: @js($search)})" class="h-11 {{ collect($search)->filter()->isNotEmpty() ? 'w-1/2 lg:w-11 rounded-r-lg' : 'w-full lg:w-11 rounded-lg' }} inline-flex items-center justify-center bg-[#272b2c] hover:bg-[#1f2324] text-white shadow-sm transition">
+                        <i class="la la-search text-lg"></i>
                     </a>
                 </div>
-            </div>
 
+                <!-- NOVO -->
+                <a href="{{ route('panel.students.save') }}" wire:navigate class="h-11 w-full lg:w-11 inline-flex items-center justify-center bg-[#2CAA2C] hover:bg-[#259C25] text-white rounded-lg shadow-sm transition">
+                    <i class="la la-plus text-lg"></i>
+                </a>
+
+            </div>
         </div>
 
     </section>
 
     <!-- Page Content -->
-    <section>
+    <section wire:key="content">
         @if ($students->isEmpty())
         <div class="rounded-xl border border-[#E5E7EB] bg-[#F9FAFB] px-6 py-8 text-center">
             <p class="text-sm text-gray-500">Nenhum aluno cadastrado.</p>
         </div>
         @else
 
-        <div class="overflow-x-hidden rounded-xl border border-[#E5E7EB] bg-white" x-data="scrollbar" wire:ignore.self>
+        <div wire:key="table" class="overflow-x-hidden rounded-xl border border-[#E5E7EB] bg-white" x-data="scrollbar" wire:ignore.self>
             <table class="table-primary table-fixed">
                 <thead>
                     <tr>
@@ -98,4 +119,28 @@
         @endif
     </section>
 
+    @teleport('body')
+    <div>
+        <livewire:panel.student.modal-filter />
+    </div>
+    @endteleport
 </div>
+
+@script
+<script>
+    Alpine.data('indexStudents', () => ({
+        search: $wire.entangle('search'),
+        events: {
+            ['@open-modal-filter.window']() {
+                this.$dispatch('open-modal', {
+                    ref: 'modal-filter'
+                });
+                this.$dispatch('run-modal-filter', {
+                    fields: this.search
+                });
+            }
+        },
+        init() {}
+    }));
+</script>
+@endscript
