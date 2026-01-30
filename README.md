@@ -4,6 +4,42 @@ Projeto Laravel configurado para rodar 100% via **Docker**.
 
 ---
 
+## 🔐 Login de Teste (Acesso Rápido)
+
+Use após subir o sistema:
+
+| Tipo | Email | Senha |
+|------|------|------|
+| 👑 Administrador | suitpay@mail.com | password |
+| 🎓 Professor | maria@mail.com | password |
+| 🎓 Professor | joao@mail.com | password |
+| 👨‍🎓 Aluno | gustavo@mail.com | password |
+| 👨‍🎓 Aluno | danilo@mail.com | password |
+
+---
+
+## 📸 Telas do Sistema
+
+### 🔐 Tela de Autenticação
+![Tela de Login](screenshots/auth.png)
+
+### 📚 Catálogo de Cursos
+![Catálogo](screenshots/catalog.png)
+
+### 🎯 Filtro de Cursos
+![Filtro](screenshots/filter.png)
+
+### 📝 Formulário
+![Formulário](screenshots/form.png)
+
+### 📄 Página do Curso
+![Página do Curso](screenshots/single.png)
+
+### ☀️ Painel / Dashboard
+![Dashboard](screenshots/sunos.png)
+
+---
+
 ## ✅ Requisitos
 
 - Docker  
@@ -27,7 +63,7 @@ cd suitpaycursos
 docker compose up -d
 ```
 
-Aguarde cerca de **15 segundos** para o MySQL iniciar completamente, mesmo depois de todos conteiners docker forem criados.
+Aguarde cerca de **15 segundos** para o MySQL iniciar completamente, mesmo depois de os containers estarem em execução.
 
 ---
 
@@ -74,8 +110,8 @@ exit
 ```
 
 Isso cria automaticamente:
-- Usuários (Administradores, Criadores e Alunos)
-- Cursos
+- Usuários (Administradores, Professores e Alunos)
+- Cursos de exemplo
 
 ---
 
@@ -89,40 +125,6 @@ Você será redirecionado para a tela de login.
 
 ---
 
-## 🔐 Logins de teste
-
-### 👑 Administrador
-
-| Email | Senha |
-|------|------|
-| suitpay@mail.com | password |
-
-Acesso completo ao painel administrativo.
-
----
-
-### 🎓 Criadores (Professores)
-
-| Email | Senha |
-|------|------|
-| maria@mail.com | password |
-| joao@mail.com | password |
-
-Responsáveis pelos cursos na plataforma.
-
----
-
-### 👨‍🎓 Alunos
-
-| Email | Senha | Criador Vinculado |
-|------|------|-------------------|
-| gustavo@mail.com | password | Maria |
-| danilo@mail.com | password | João |
-
-Acessam o catálogo e os cursos matriculados.
-
----
-
 ## 🧠 Portas dos serviços
 
 | Serviço | Porta |
@@ -131,3 +133,32 @@ Acessam o catálogo e os cursos matriculados.
 | MySQL (acesso externo) | **3329** |
 
 > Internamente o Laravel usa a porta **3306** para o banco.
+
+---
+
+## 🐳 Comandos úteis Docker
+
+Parar containers:
+
+```bash
+docker compose down
+```
+
+Reconstruir containers:
+
+```bash
+docker compose up -d --build
+```
+
+Acessar container da aplicação:
+
+```bash
+docker exec -it app bash
+```
+
+---
+
+## 📌 Observações
+
+- Caso o banco não conecte de primeira, aguarde mais alguns segundos e rode novamente o migrate.
+- Se alterar variáveis de ambiente, reinicie os containers.
