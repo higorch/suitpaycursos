@@ -20,7 +20,7 @@
             <img src="{{ asset('assets/images/suitpaycursos.png') }}" class="h-12 w-auto" alt="SuitPay Cursos">
         </div>
 
-        {{ $slot }}
+       <div class="p-3">{{ $slot }}</div>
 
         <!-- Rodapé -->
         <p class="text-center text-xs text-gray-400 mt-8">©{{ date('Y') }} SuitPay Cursos. Todos os direitos reservados.</p>
