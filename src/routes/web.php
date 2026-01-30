@@ -14,10 +14,6 @@ Route::group(['prefix' => 'panel', 'as' => 'panel.', 'middleware' => ['user.auth
         Route::livewire('/', 'pages::global.profile')->name('index');
     });
 
-    Route::group(['prefix' => 'dashboard', 'as' => 'dashboard.'], function () {
-        Route::livewire('/', App\Livewire\Panel\Dashboard\Index::class)->name('index');
-    });
-
     Route::group(['middleware' => ['admin.restrict']], function () {
         Route::group(['prefix' => 'users', 'as' => 'users.'], function () {
             Route::livewire('/', App\Livewire\Panel\User\Index::class)->name('index');

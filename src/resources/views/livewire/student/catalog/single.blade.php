@@ -1,5 +1,16 @@
 <div class="py-16">
 
+    @php
+    function embedUrl($url){
+        if(str_contains($url,'youtube.com/watch')){parse_str(parse_url($url,PHP_URL_QUERY),$params);return 'https://www.youtube.com/embed/'.($params['v']??'');}
+        if(str_contains($url,'youtu.be/')){return 'https://www.youtube.com/embed/'.basename(parse_url($url,PHP_URL_PATH));}
+        if(str_contains($url,'vimeo.com/')){return 'https://player.vimeo.com/video/'.basename(parse_url($url,PHP_URL_PATH));}
+        return $url;
+    }
+
+    $deadlinePassed = $course->enrollment_deadline && \Carbon\Carbon::parse($course->enrollment_deadline)->endOfDay()->isPast();
+    @endphp
+
     <div class="flex flex-col gap-16 px-6">
 
         @if (session('success'))
@@ -48,12 +59,19 @@
                     </div>
                 </div>
                 @else
-                <a href="#"
-                    @click.prevent="$dispatch('run-modal-confirm', { action: 'confirm', context: 'enroll-course', id: '{{ $course->id }}', name: 'Quer matricular no curso: {{ $course->name }}' })"
-                    class="w-full inline-flex items-center justify-center gap-3 bg-[#16a34a] text-white font-semibold px-10 py-5 rounded-2xl shadow-lg hover:bg-[#15803d] hover:shadow-xl hover:scale-[1.01] transition text-base">
-                    <i class="la la-graduation-cap text-xl"></i>
-                    Matricule-se agora
-                </a>
+                    @if(!$deadlinePassed)
+                        <a href="#" @click.prevent="$dispatch('run-modal-confirm', { action: 'confirm', context: 'enroll-course', id: '{{ $course->id }}', name: 'Quer matricular no curso: {{ $course->name }}' })" class="w-full inline-flex items-center justify-center gap-3 bg-[#16a34a] text-white font-semibold px-10 py-5 rounded-2xl shadow-lg hover:bg-[#15803d] hover:shadow-xl hover:scale-[1.01] transition text-base">
+                            <i class="la la-graduation-cap text-xl"></i>
+                            Matricule-se agora
+                        </a>
+                    @else
+                        <div class="w-full">
+                            <div class="w-full flex items-center justify-center gap-2 bg-red-50 border border-red-200 text-red-700 px-6 py-4 rounded-2xl font-semibold text-sm text-center">
+                                <i class="la la-lock text-base"></i>
+                                As matrículas para este curso já foram encerradas.
+                            </div>
+                        </div>
+                    @endif
                 @endif
 
             </div>
@@ -62,15 +80,6 @@
         </section>
 
         <!-- VÍDEO / CAPA -->
-        @php
-        function embedUrl($url){
-        if(str_contains($url,'youtube.com/watch')){parse_str(parse_url($url,PHP_URL_QUERY),$params);return 'https://www.youtube.com/embed/'.($params['v']??'');}
-        if(str_contains($url,'youtu.be/')){return 'https://www.youtube.com/embed/'.basename(parse_url($url,PHP_URL_PATH));}
-        if(str_contains($url,'vimeo.com/')){return 'https://player.vimeo.com/video/'.basename(parse_url($url,PHP_URL_PATH));}
-        return $url;
-        }
-        @endphp
-
         @if($course->presentation_video_url)
         <div class="w-full aspect-video rounded-2xl overflow-hidden border border-gray-200 shadow-sm">
             <iframe src="{{ embedUrl($course->presentation_video_url) }}" class="w-full h-full" allowfullscreen></iframe>
@@ -87,13 +96,18 @@
         </div>
 
         <!-- CTA SECUNDÁRIO FULL -->
-        @if(!$course->enrolled_by_me_count)
-        <a href="#"
-            @click.prevent="$dispatch('run-modal-confirm', { action: 'confirm', context: 'enroll-course', id: '{{ $course->id }}', name: 'Quer matricular no curso: {{ $course->name }}' })"
-            class="w-full inline-flex items-center justify-center gap-3 bg-[#16a34a]/90 text-white font-semibold px-10 py-5 rounded-2xl shadow-md hover:bg-[#15803d] hover:shadow-lg transition text-base">
-            <i class="la la-graduation-cap text-lg"></i>
-            Matricule-se agora
-        </a>
+       @if(!$deadlinePassed)
+            <a href="#" @click.prevent="$dispatch('run-modal-confirm', { action: 'confirm', context: 'enroll-course', id: '{{ $course->id }}', name: 'Quer matricular no curso: {{ $course->name }}' })" class="w-full inline-flex items-center justify-center gap-3 bg-[#16a34a] text-white font-semibold px-10 py-5 rounded-2xl shadow-lg hover:bg-[#15803d] hover:shadow-xl hover:scale-[1.01] transition text-base">
+                <i class="la la-graduation-cap text-xl"></i>
+                Matricule-se agora
+            </a>
+        @else
+            <div class="w-full">
+                <div class="w-full flex items-center justify-center gap-2 bg-red-50 border border-red-200 text-red-700 px-6 py-4 rounded-2xl font-semibold text-sm text-center">
+                    <i class="la la-lock text-base"></i>
+                    As matrículas para este curso já foram encerradas.
+                </div>
+            </div>
         @endif
 
         <!-- INFORMAÇÕES DO CURSO -->

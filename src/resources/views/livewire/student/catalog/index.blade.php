@@ -53,6 +53,7 @@
                 'in-person' => 'Presencial',
                 'hybrid' => 'Híbrido',
                 ];
+                $deadlinePassed = $course->enrollment_deadline && \Carbon\Carbon::parse($course->enrollment_deadline)->endOfDay()->lt(now());
                 @endphp
 
                 <a href="{{ route('student.catalogs.single', ['at' => $course->creator->at ?? 'instrutor', 'slug' => $course->slug]) }}"
@@ -96,11 +97,16 @@
                             </div>
                             @endif
 
-                            @if($course->enrollment_deadline)
-                            <div class="flex items-center gap-2">
-                                <i class="la la-calendar text-[#16a34a]"></i>
-                                <span>Matrículas até <strong class="text-gray-700">{{ \Carbon\Carbon::parse($course->enrollment_deadline)->format('d/m/Y') }}</strong></span>
-                            </div>
+                            @if($deadlinePassed)
+                                <span class="inline-flex items-center gap-1 text-[10px] font-semibold uppercase tracking-wide bg-red-600/10 text-red-700 border border-red-600/20 px-3 py-1 rounded-full backdrop-blur-sm">
+                                    <i class="la la-calendar-times text-[11px]"></i>
+                                    Matrículas encerradas
+                                </span>
+                            @else
+                                <div class="flex items-center gap-2">
+                                    <i class="la la-calendar text-[#16a34a]"></i>
+                                    <span>Matrículas até <strong class="text-gray-700">{{ \Carbon\Carbon::parse($course->enrollment_deadline)->format('d/m/Y') }}</strong></span>
+                                </div>
                             @endif
                         </div>
 

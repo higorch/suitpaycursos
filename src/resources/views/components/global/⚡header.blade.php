@@ -30,8 +30,6 @@ new class extends Component
 
                 @if(request()->routeIs('student.*'))
                 <a href="{{ route('student.catalogs.index') }}" wire:navigate class="flex items-center gap-2 transition {{ request()->routeIs('student.catalogs.*') ? 'text-[#2CAA2C] font-semibold' : 'text-gray-500 hover:text-[#33CC33]' }}"><i class="las la-boxes text-lg"></i> Catálogo</a>
-                @else
-                <a href="{{ route('panel.dashboard.index') }}" wire:navigate class="flex items-center gap-2 transition {{ request()->routeIs('panel.dashboard.*') ? 'text-[#2CAA2C] font-semibold' : 'text-gray-500 hover:text-[#33CC33]' }}"><i class="las la-tachometer-alt text-lg"></i> Dashboard</a>
                 @endif
 
                 @if(request()->routeIs('student.*'))
@@ -87,8 +85,6 @@ new class extends Component
             @if(request()->routeIs('student.*'))
             <a href="{{ route('student.catalogs.index') }}" wire:navigate class="flex items-center gap-3 py-2 {{ request()->routeIs('student.catalogs.*') ? 'text-[#2CAA2C] font-semibold' : 'text-gray-600 hover:text-[#33CC33]' }}"><i class="las la-boxes text-lg"></i> Catálogo</a>
             <a href="{{ route('student.courses.index') }}" wire:navigate class="flex items-center gap-3 py-2 {{ request()->routeIs('student.courses.*') ? 'text-[#2CAA2C] font-semibold' : 'text-gray-600 hover:text-[#33CC33]' }}"><i class="la la-book text-lg"></i> Meus Cursos</a>
-            @else
-            <a href="{{ route('panel.dashboard.index') }}" wire:navigate class="flex items-center gap-3 py-2 {{ request()->routeIs('panel.dashboard.*') ? 'text-[#2CAA2C] font-semibold' : 'text-gray-600 hover:text-[#33CC33]' }}"><i class="las la-tachometer-alt text-lg"></i> Dashboard</a>
             @endif
         </div>
 

@@ -13,6 +13,8 @@ class Index extends Component
 {
     use WithPagination;
 
+    public int $perPage = 25;
+
     #[Title('Catalogo de Cursos')]
     public function render()
     {
@@ -28,6 +30,6 @@ class Index extends Component
             CourseScope::class,
         ])->with([
             'creator'
-        ])->paginate(25);
+        ])->where('status', 'activated')->latest()->paginate($this->perPage);
     }
 }
