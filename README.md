@@ -11,8 +11,8 @@ Use após subir o sistema:
 | Tipo | Email | Senha |
 |------|------|------|
 | 👑 Administrador | suitpay@mail.com | password |
-| 🎓 Professor | maria@mail.com | password |
-| 🎓 Professor | joao@mail.com | password |
+| 🎓 Criador | maria@mail.com | password |
+| 🎓 Criador | joao@mail.com | password |
 | 👨‍🎓 Aluno | gustavo@mail.com | password |
 | 👨‍🎓 Aluno | danilo@mail.com | password |
 
@@ -88,7 +88,7 @@ exit
 ```
 
 Isso cria automaticamente:
-- Usuários (Administradores, Professores e Alunos)
+- Usuários (Administradores, Criadores e Alunos)
 - Cursos de exemplo
 
 ---
