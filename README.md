@@ -74,9 +74,7 @@ exit
 ```
 
 Isso cria automaticamente:
-- Usuários
-- Criadores
-- Alunos
+- Usuários (Administradores, Criadores e Alunos)
 - Cursos
 
 ---
@@ -133,5 +131,3 @@ Acessam o catálogo e os cursos matriculados.
 | MySQL (acesso externo) | **3329** |
 
 > Internamente o Laravel usa a porta **3306** para o banco.
-
----
