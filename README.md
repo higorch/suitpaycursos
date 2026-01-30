@@ -18,28 +18,6 @@ Use após subir o sistema:
 
 ---
 
-## 📸 Telas do Sistema
-
-### 🔐 Tela de Autenticação
-![Tela de Login](screenshots/auth.png)
-
-### 📚 Catálogo de Cursos
-![Catálogo](screenshots/catalog.png)
-
-### 🎯 Filtro de Cursos
-![Filtro](screenshots/filter.png)
-
-### 📝 Formulário
-![Formulário](screenshots/form.png)
-
-### 📄 Página do Curso
-![Página do Curso](screenshots/single.png)
-
-### ☀️ Painel / Dashboard
-![Dashboard](screenshots/sunos.png)
-
----
-
 ## ✅ Requisitos
 
 - Docker  
@@ -162,3 +140,22 @@ docker exec -it app bash
 
 - Caso o banco não conecte de primeira, aguarde mais alguns segundos e rode novamente o migrate.
 - Se alterar variáveis de ambiente, reinicie os containers.
+
+---
+
+## 📸 Telas do Sistema
+
+### 🔐 Tela de Autenticação
+![Tela de Login](screenshots/auth.png)
+
+### 📚 Catálogo de Cursos
+![Catálogo](screenshots/catalog.png)
+
+### 🎯 Filtro de Cursos
+![Filtro](screenshots/filter.png)
+
+### 📝 Formulário
+![Formulário](screenshots/form.png)
+
+### 📄 Página do Curso
+![Página do Curso](screenshots/single.png)
