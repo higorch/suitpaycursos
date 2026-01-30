@@ -102,7 +102,7 @@ class UserForm extends Form
         $rules = [
             'name' => ['required'],
             'status' => ['required', 'in:activated,disabled'],
-            'role' => ['required', 'in:admin,teacher,student'],
+            'role' => ['required', 'in:admin,creator,student'],
             'cpf_cnpj' => ['nullable', 'cpf_ou_cnpj'],
             'date_birth' => ['nullable', 'date'],
             'at' => [

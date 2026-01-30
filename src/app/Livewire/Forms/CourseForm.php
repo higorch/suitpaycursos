@@ -10,7 +10,7 @@ use Livewire\Form;
 class CourseForm extends Form
 {
     public ?string $id = null;
-    public ?int $teacher_id = null;
+    public ?int $creator_id = null;
     public string $name = '';
     public string $description = '';
     public string $slug = '';
@@ -31,7 +31,7 @@ class CourseForm extends Form
         if (!$course) return;
 
         $this->id = $course->id;
-        $this->teacher_id = $course->teacher_id;
+        $this->creator_id = $course->creator_id;
         $this->name = $course->name;
         $this->description = $course->description;
         $this->slug = $course->slug;
@@ -64,7 +64,7 @@ class CourseForm extends Form
     protected function getCourseData(): array
     {
         $data = [
-            'teacher_id' => $this->teacher_id ?? auth()->id(),
+            'creator_id' => $this->creator_id ?? auth()->id(),
             'name' => $this->name,
             'description' => $this->description,
             'slug' => rtrim(Str::slug($this->slug), '-'),

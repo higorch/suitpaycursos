@@ -54,10 +54,10 @@ class Index extends Component
             return User::where('role', 'student')->paginate(15);
         }
 
-        // Professor vê alunos vinculados a ele, OU alunos matriculados em cursos dele
+        // Criador vê alunos vinculados a ele, OU alunos matriculados em cursos dele
         return User::where('role', 'student')->where(function ($query) use ($user) {
-            $query->where('teacher_id', $user->id)->orWhereHas('enrollments.course', function ($query) use ($user) {
-                $query->where('teacher_id', $user->id);
+            $query->where('creator_id', $user->id)->orWhereHas('enrollments.course', function ($query) use ($user) {
+                $query->where('creator_id', $user->id);
             });
         })->distinct()->paginate(15);
     }

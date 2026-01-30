@@ -12,27 +12,27 @@ class CourseSeeder extends Seeder
 {
     public function run(): void
     {
-        // Professores
-        $teachers = User::where('role', 'teacher')->take(2)->get();
+        // Criadores
+        $creators = User::where('role', 'creator')->take(2)->get();
 
-        if ($teachers->count() < 2) {
-            $this->command->warn('É necessário pelo menos 2 professores. Rode o DefaultUserSeeder primeiro.');
+        if ($creators->count() < 2) {
+            $this->command->warn('É necessário pelo menos 2 criadores. Rode o DefaultUserSeeder primeiro.');
             return;
         }
 
-        // Alunos vinculados aos professores
-        $studentsForTeachers = [
-            $teachers[0]->id => [
+        // Alunos vinculados aos criadores
+        $studentsForCreators = [
+            $creators[0]->id => [
                 ['name' => 'Lucas Andrade', 'email' => 'lucas.andrade@mail.com'],
                 ['name' => 'Fernanda Lima', 'email' => 'fernanda.lima@mail.com'],
             ],
-            $teachers[1]->id => [
+            $creators[1]->id => [
                 ['name' => 'Rafael Souza', 'email' => 'rafael.souza@mail.com'],
                 ['name' => 'Camila Rocha', 'email' => 'camila.rocha@mail.com'],
             ],
         ];
 
-        foreach ($studentsForTeachers as $teacherId => $students) {
+        foreach ($studentsForCreators as $creatorId => $students) {
             foreach ($students as $student) {
                 User::firstOrCreate(
                     ['email' => $student['email']],
@@ -42,7 +42,7 @@ class CourseSeeder extends Seeder
                         'password' => Hash::make('123456'),
                         'role' => 'student',
                         'status' => 'activated',
-                        'teacher_id' => $teacherId,
+                        'creator_id' => $creatorId,
                         'at' => incrementIfExistDatabase(
                             formatAt($student['name']),
                             'users',
@@ -53,7 +53,7 @@ class CourseSeeder extends Seeder
             }
         }
 
-        // Alunos sem professor
+        // Alunos sem criador
         $independentStudents = [
             ['name' => 'Juliana Martins', 'email' => 'juliana.martins@mail.com'],
             ['name' => 'Bruno Almeida', 'email' => 'bruno.almeida@mail.com'],
@@ -68,7 +68,7 @@ class CourseSeeder extends Seeder
                     'password' => Hash::make('123456'),
                     'role' => 'student',
                     'status' => 'activated',
-                    'teacher_id' => null,
+                    'creator_id' => null,
                     'at' => incrementIfExistDatabase(
                         formatAt($student['name']),
                         'users',
@@ -116,10 +116,10 @@ class CourseSeeder extends Seeder
                 continue;
             }
 
-            $teacher = $teachers[$index % 2];
+            $creator = $creators[$index % 2];
 
             Course::create([
-                'teacher_id' => $teacher->id,
+                'creator_id' => $creator->id,
                 'name' => $course['name'],
                 'description' => $course['description'],
                 'slug' => $slug,
@@ -130,7 +130,7 @@ class CourseSeeder extends Seeder
                 'enrollment_deadline' => now()->addDays(rand(30, 60)),
             ]);
 
-            $this->command->info("Curso {$course['name']} criado para {$teacher->name}");
+            $this->command->info("Curso {$course['name']} criado para {$creator->name}");
         }
     }
 }

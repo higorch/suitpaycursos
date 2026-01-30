@@ -25,8 +25,8 @@ class Save extends Component
 
             $user =  Auth::user();
 
-            // Se não for admin e não for o professor dono, bloqueia
-            if ($user->role !== 'admin' && $student->teacher_id !== $user->id) {
+            // Se não for admin e não for o criador dono, bloqueia
+            if ($user->role !== 'admin' && $student->creator_id !== $user->id) {
                 abort(403);
             }
 

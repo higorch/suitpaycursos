@@ -55,7 +55,7 @@
                 ];
                 @endphp
 
-                <a href="{{ route('student.catalogs.single', ['at' => $course->teacher->at ?? 'instrutor', 'slug' => $course->slug]) }}"
+                <a href="{{ route('student.catalogs.single', ['at' => $course->creator->at ?? 'instrutor', 'slug' => $course->slug]) }}"
                     class="group flex flex-col rounded-3xl border border-gray-100 bg-white shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 overflow-hidden">
 
                     <!-- THUMB -->
@@ -77,7 +77,7 @@
                     <div class="flex flex-col gap-4 p-6 flex-1">
 
                         <span class="text-[11px] text-gray-400 uppercase tracking-widest">
-                            {{ $course->teacher->name ?? 'Criador' }} (Criador)
+                            {{ $course->creator->name ?? 'Criador' }} (Criador)
                         </span>
 
                         <h2 class="font-semibold text-lg leading-snug text-gray-900 line-clamp-2 group-hover:text-[#15803d] transition">

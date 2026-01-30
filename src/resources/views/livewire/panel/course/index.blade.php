@@ -35,12 +35,13 @@
                 <table class="table-primary table-fixed">
                     <thead>
                         <tr>
-                            <th class="sticky left-0 bg-[#F9FAFB]">Nome</th>
-                            <th>Professor</th>
+                            <th class="sticky left-0">Nome</th>
+                            <th>Criador</th>
                             <th>Status</th>
                             <th>Modo</th>
+                            <th>Modalidade</th>
                             <th>Vagas</th>
-                            <th class="sticky right-0 w-20 text-right bg-[#F9FAFB]"></th>
+                            <th class="sticky right-0 w-20"></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -54,7 +55,7 @@
                             @endphp
                             <tr wire:key="course-{{ $course->id }}">
                                 <td class="sticky left-0">{{ $course->name }}</td>
-                                <td class="whitespace-nowrap">{{ $course->teacher->name ?? '—' }}</td>
+                                <td class="whitespace-nowrap">{{ $course->creator->name ?? '—' }}</td>
                                 <td>
                                     @if($course->status === 'activated')
                                         <span class="badge badge-green w-full flex items-center justify-center">Ativo</span>

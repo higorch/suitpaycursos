@@ -1,3 +1,73 @@
+<?php
+
+use App\Livewire\Forms\ProfileForm;
+use Illuminate\Support\Facades\Auth;
+use Livewire\Attributes\Computed;
+use Livewire\Component;
+
+new class extends Component
+{
+    public ProfileForm $form;
+
+    public function render()
+    {
+        return $this->view([
+            'pageTitle' => $this->pageTitle,
+        ])->title($this->pageTitle);
+    }
+
+    public function mount()
+    {
+        $this->form->edit(Auth::user()->ulid);
+    }
+
+    public function rendered()
+    {
+        $this->dispatch('errors-save-profile', errors: $this->getErrorBag());
+
+        $this->errorToastErrorBag();
+        $this->resetErrorBag();
+    }
+
+    #[Computed]
+    public function pageTitle()
+    {
+        if (request()->routeIs('student.*')) {
+            return 'Meu Perfil (Aluno)';
+        }
+
+        if (request()->routeIs('panel.*')) {
+            return 'Meu Perfil (Criador)';
+        }
+
+        return 'Meu Perfil';
+    }
+
+    public function submit()
+    {
+        $this->validate();
+
+        try {
+            session()->flash('success', 'Informações salvas com sucesso.');
+
+            return $this->redirect(url()->previous(), navigate: true);
+        } catch (\Exception $e) {
+            $this->dispatch('notify', msg: 'Não foi possível salvar.', type: 'error');
+        }
+    }
+
+    private function errorToastErrorBag()
+    {
+        $errors = $this->getErrorBag();
+        $count = count($errors->getMessages());
+
+        if ($count > 0) {
+            $this->dispatch('notify', msg: $count === 1 ? __('app.one_filling_problem') : $count . ' ' . __('app.filling_problems'), type: 'error');
+        }
+    }
+};
+?>
+
 <div class="flex flex-col gap-10 pt-14 pb-16 px-6">
 
     @if (session('success'))
@@ -47,14 +117,14 @@
 
                 <!-- NOME -->
                 <div class="relative col-span-12 md:col-span-6 flex flex-col gap-2">
-                    <label class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Nome completo</label>
+                    <label class="label-input-basic">Nome completo</label>
                     <input type="text" wire:model="form.name" class="input-basic">
                     @error('form.name') <span @mouseover="$el.remove()" class="input-error full label">{{ $message }}</span> @enderror
                 </div>
 
                 <!-- USERNAME -->
                 <div class="relative col-span-12 md:col-span-6 flex flex-col gap-2">
-                    <label class="text-xs font-semibold text-gray-500 uppercase tracking-wider">@Usuário</label>
+                    <label class="label-input-basic">@Usuário</label>
                     <input type="text" class="input-basic" wire:model="form.at" x-data="{
                             isEditing: $wire.entangle('form.ulid'),
                             name: $wire.entangle('form.name'),
@@ -83,14 +153,14 @@
 
                 <!-- EMAIL -->
                 <div class="relative col-span-12 md:col-span-6 flex flex-col gap-2">
-                    <label class="text-xs font-semibold text-gray-500 uppercase tracking-wider">E-mail</label>
+                    <label class="label-input-basic">E-mail</label>
                     <input type="email" wire:model="form.email" class="input-basic">
                     @error('form.email') <span @mouseover="$el.remove()" class="input-error full label">{{ $message }}</span> @enderror
                 </div>
 
                 <!-- DATA NASCIMENTO -->
                 <div class="relative col-span-12 md:col-span-3 flex flex-col gap-2">
-                    <label class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Data de nascimento</label>
+                    <label class="label-input-basic">Data de nascimento</label>
                     <input type="text" wire:model="form.date_birth" class="input-basic" placeholder="__/__/____" x-data="{
                             init() {
                                 const today = new Date();
@@ -116,19 +186,9 @@
 
                 <!-- CPF / CNPJ -->
                 <div class="relative col-span-12 md:col-span-3 flex flex-col gap-2">
-                    <label class="text-xs font-semibold text-gray-500 uppercase tracking-wider">CPF / CNPJ</label>
+                    <label class="label-input-basic">CPF / CNPJ</label>
                     <input type="text" wire:model="form.cpf_cnpj" class="input-basic" x-data="mask" data-inputmask="'mask': ['999.999.999-99', '99.999.999/9999-99'], 'keepStatic': true">
                     @error('form.cpf_cnpj') <span @mouseover="$el.remove()" class="input-error full label">{{ $message }}</span> @enderror
-                </div>
-
-                <!-- STATUS -->
-                <div class="relative col-span-12 md:col-span-12 flex flex-col gap-2">
-                    <label class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Status</label>
-                    <select x-data="choices($wire.entangle('form.status'), '---', '', 'auto', false)">
-                        <option value="activated">Ativo</option>
-                        <option value="disabled">Desativado</option>
-                    </select>
-                    @error('form.status') <span @mouseover="$el.remove()" class="input-error full label">{{ $message }}</span> @enderror
                 </div>
 
                 <!-- ===== SEGURANÇA ===== -->
@@ -140,7 +200,7 @@
 
                 <!-- SENHA -->
                 <div class="relative col-span-12 md:col-span-6 flex flex-col gap-2" x-data="{ show:false }">
-                    <label class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Senha</label>
+                    <label class="label-input-basic">Senha</label>
                     <div class="relative">
                         <input :type="show ? 'text':'password'" wire:model="form.password" class="input-basic pr-10">
                         <a href="#" @click.prevent="show=!show"
@@ -153,7 +213,7 @@
 
                 <!-- CONFIRMAR SENHA -->
                 <div class="relative col-span-12 md:col-span-6 flex flex-col gap-2" x-data="{ show:false }">
-                    <label class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Confirmar senha</label>
+                    <label class="label-input-basic">Confirmar senha</label>
                     <div class="relative">
                         <input :type="show ? 'text':'password'" wire:model="form.password_confirmation" class="input-basic pr-10">
                         <a href="#" @click.prevent="show=!show"

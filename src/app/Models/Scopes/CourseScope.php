@@ -21,7 +21,7 @@ class CourseScope implements Scope
             // Acesso geral role admin
             if (in_array($role, ['admin'])) return;
 
-            $builder->whereHas('teacher', function ($query) use ($user) {
+            $builder->whereHas('creator', function ($query) use ($user) {
                 $query->where('id', $user->id);
             });
         }

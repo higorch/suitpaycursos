@@ -21,7 +21,7 @@ class AuthGuests
         $user = Auth::user();
         $role = $user->role;
 
-        if (in_array($role, ['admin', 'teacher'])) {
+        if (in_array($role, ['admin', 'creator'])) {
             return redirect()->route('panel.profile.index');
         }
 

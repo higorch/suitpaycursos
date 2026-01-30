@@ -836,7 +836,7 @@ readers do not read off random characters that represent icons */
 .la-chalkboard:before {
   content: "\f51b"; }
 
-.la-chalkboard-teacher:before {
+.la-chalkboard-creator:before {
   content: "\f51c"; }
 
 .la-charging-station:before {

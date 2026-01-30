@@ -15,11 +15,13 @@
         </div>
 
         <!-- Senha -->
-        <div class="relative flex flex-col gap-1">
+        <div class="relative flex flex-col gap-1" x-data="{ show:false }">
             <label class="label-input-basic">Senha</label>
             <div class="relative">
-                <input type="password" wire:model.defer="password" required class="input-basic pr-10" placeholder="••••••••">
-                <i class="la la-eye absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 cursor-pointer"></i>
+                <input :type="show ? 'text':'password'" wire:model="password" class="input-basic pr-10">
+                <a href="#" @click.prevent="show=!show" class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-[#2CAA2C] transition">
+                    <i :class="show ? 'la la-eye-slash' : 'la la-eye'"></i>
+                </a>
             </div>
             @error('password') <span @mouseover="$el.remove()" class="input-error full label">{{ $message }}</span> @enderror
         </div>

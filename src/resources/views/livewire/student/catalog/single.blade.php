@@ -27,14 +27,14 @@
                         </h1>
                     </div>
 
-                    <!-- PROFESSOR -->
+                    <!-- CRIADOR -->
                     <div class="flex items-center gap-3 bg-white/5 px-4 py-3 rounded-xl border border-white/10">
                         <div class="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center font-semibold text-base text-white/80">
-                            {{ strtoupper(substr($course->teacher->name ?? 'P', 0, 1)) }}
+                            {{ strtoupper(substr($course->creator->name ?? 'P', 0, 1)) }}
                         </div>
                         <div class="leading-tight">
-                            <p class="font-medium text-white/80">{{ $course->teacher->name ?? 'Criador do curso' }}</p>
-                            <p class="text-xs text-white/40 uppercase tracking-wide">Crador (Professor)</p>
+                            <p class="font-medium text-white/80">{{ $course->creator->name ?? 'Criador do curso' }}</p>
+                            <p class="text-xs text-white/40 uppercase tracking-wide">Criador</p>
                         </div>
                     </div>
 

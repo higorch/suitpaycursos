@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('courses', function (Blueprint $table) {
             $table->ulid('id')->primary();
-            $table->unsignedBigInteger('teacher_id')->nullable();
-            $table->foreign('teacher_id')->references('id')->on('users')->onUpdate('cascade');
+            $table->unsignedBigInteger('creator_id')->nullable();
+            $table->foreign('creator_id')->references('id')->on('users')->onUpdate('cascade');
             $table->string('name')->nullable()->index();
             $table->text('description')->nullable();
             $table->string('slug', 100)->index();
@@ -25,7 +25,7 @@ return new class extends Migration
             $table->timestamp('enrollment_deadline')->nullable(); // data maxima para se matricular
             $table->timestamps();
 
-            $table->unique(['teacher_id', 'name', 'slug'], 'courses_unique');
+            $table->unique(['creator_id', 'name', 'slug'], 'courses_unique');
         });
     }
 

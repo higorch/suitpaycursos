@@ -14,13 +14,13 @@ return new class extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->ulid()->unique();
-            $table->foreignId('teacher_id')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
+            $table->foreignId('creator_id')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
             $table->string('name');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password')->nullable();
             $table->string('cpf_cnpj', 14)->index()->unique()->nullable();
-            $table->string('role', 40)->nullable(); // admin, teacher, student
+            $table->string('role', 40)->nullable(); // admin, creator, student
             $table->string('status', 25)->index(); // activated, disabled
             $table->string('at', 60)->index()->unique();
             $table->date('date_birth')->nullable();

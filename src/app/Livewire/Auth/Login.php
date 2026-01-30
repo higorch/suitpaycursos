@@ -48,7 +48,7 @@ class Login extends Component
 
             $role = Auth::user()->role;
 
-            if (in_array($role, ['admin', 'teacher'])) {
+            if (in_array($role, ['admin', 'creator'])) {
                 $this->redirectRoute('panel.profile.index', navigate: true);
                 return;
             }

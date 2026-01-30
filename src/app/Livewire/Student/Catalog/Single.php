@@ -60,11 +60,11 @@ class Single extends Component
     {
         return Course::withoutGlobalScopes([
             CourseScope::class,
-        ])->with(['teacher'])->withCount([
+        ])->with(['creator'])->withCount([
             'enrollments as enrolled_by_me_count' => function ($query) {
                 $query->where('student_id', Auth::user()->id);
             }
-        ])->whereHas('teacher', function ($query) {
+        ])->whereHas('creator', function ($query) {
             $query->where('at', $this->at);
         })->where('slug', $this->slug)->first();
     }

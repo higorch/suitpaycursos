@@ -12,7 +12,7 @@ class Course extends Model
     use HasUlids;
 
     protected $fillable = [
-        'teacher_id',
+        'creator_id',
         'name',
         'description',
         'slug',
@@ -37,9 +37,9 @@ class Course extends Model
         return $this->morphMany(Attachment::class, 'attachable');
     }
 
-    public function teacher()
+    public function creator()
     {
-        return $this->belongsTo(User::class, 'teacher_id');
+        return $this->belongsTo(User::class, 'creator_id');
     }
 
     public function enrollments()

@@ -35,12 +35,12 @@
                 <table class="table-primary table-fixed">
                     <thead>
                         <tr>
-                            <th class="sticky left-0 bg-[#F9FAFB]">Nome</th>
+                            <th class="sticky left-0">Nome</th>
                             <th>Status</th>
                             <th>Tipo</th>
                             <th>E-mail</th>
                             <th>CPF/CNPJ</th>
-                            <th class="sticky right-0 w-20 text-right bg-[#F9FAFB]"></th>
+                            <th class="sticky right-0 w-20"></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -48,7 +48,7 @@
                         @php
                             $roles = [
                                 'admin' => 'Administrador',
-                                'teacher' => 'Professor',
+                                'creator' => 'Criador',
                                 'student' => 'Aluno',
                             ];
                         @endphp

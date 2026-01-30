@@ -11,7 +11,7 @@ Route::group(['prefix' => 'auth', 'as' => 'auth.', 'middleware' => ['auth.guests
 Route::group(['prefix' => 'panel', 'as' => 'panel.', 'middleware' => ['user.auth', 'panel.restrict']], function () {
 
     Route::group(['prefix' => 'profile', 'as' => 'profile.'], function () {
-        Route::livewire('/', App\Livewire\Panel\Profile\Index::class)->name('index');
+        Route::livewire('/', 'pages::global.profile')->name('index');
     });
 
     Route::group(['prefix' => 'dashboard', 'as' => 'dashboard.'], function () {
@@ -43,7 +43,7 @@ Route::group(['prefix' => 'panel', 'as' => 'panel.', 'middleware' => ['user.auth
 Route::group(['prefix' => 'student', 'as' => 'student.', 'middleware' => ['user.auth']], function () {
 
     Route::group(['prefix' => 'profile', 'as' => 'profile.'], function () {
-        Route::livewire('/', App\Livewire\Student\Profile\Index::class)->name('index');
+        Route::livewire('/', 'pages::global.profile')->name('index');
     });
 
     Route::group(['prefix' => 'catalogs', 'as' => 'catalogs.'], function () {

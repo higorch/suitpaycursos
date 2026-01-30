@@ -50,14 +50,14 @@
 
                 <!-- NOME -->
                 <div class="relative col-span-12 md:col-span-6 flex flex-col gap-2">
-                    <label class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Nome completo</label>
+                    <label class="label-input-basic">Nome completo</label>
                     <input type="text" wire:model="form.name" class="input-basic">
                     @error('form.name') <span @mouseover="$el.remove()" class="input-error full label">{{ $message }}</span> @enderror
                 </div>
 
                 <!-- USERNAME -->
                 <div class="relative col-span-12 md:col-span-6 flex flex-col gap-2">
-                    <label class="text-xs font-semibold text-gray-500 uppercase tracking-wider">@Usuário</label>
+                    <label class="label-input-basic">@Usuário</label>
                     <input type="text" class="input-basic" wire:model="form.at" x-data="{
                             isEditing: $wire.entangle('form.ulid'),
                             name: $wire.entangle('form.name'),
@@ -86,14 +86,14 @@
 
                 <!-- EMAIL -->
                 <div class="relative col-span-12 md:col-span-6 flex flex-col gap-2">
-                    <label class="text-xs font-semibold text-gray-500 uppercase tracking-wider">E-mail</label>
+                    <label class="label-input-basic">E-mail</label>
                     <input type="email" wire:model="form.email" class="input-basic">
                     @error('form.email') <span @mouseover="$el.remove()" class="input-error full label">{{ $message }}</span> @enderror
                 </div>
 
                 <!-- DATA NASCIMENTO -->
                 <div class="relative col-span-12 md:col-span-3 flex flex-col gap-2">
-                    <label class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Data de nascimento</label>
+                    <label class="label-input-basic">Data de nascimento</label>
                     <input type="text" wire:model="form.date_birth" class="input-basic" placeholder="__/__/____" x-data="{
                             init() {
                                 const today = new Date();
@@ -119,14 +119,14 @@
 
                 <!-- CPF / CNPJ -->
                 <div class="relative col-span-12 md:col-span-3 flex flex-col gap-2">
-                    <label class="text-xs font-semibold text-gray-500 uppercase tracking-wider">CPF / CNPJ</label>
+                    <label class="label-input-basic">CPF / CNPJ</label>
                     <input type="text" wire:model="form.cpf_cnpj" class="input-basic" x-data="mask" data-inputmask="'mask': ['999.999.999-99', '99.999.999/9999-99'], 'keepStatic': true">
                     @error('form.cpf_cnpj') <span @mouseover="$el.remove()" class="input-error full label">{{ $message }}</span> @enderror
                 </div>
 
                 <!-- STATUS -->
                 <div class="relative col-span-12 md:col-span-12 flex flex-col gap-2">
-                    <label class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Status</label>
+                    <label class="label-input-basic">Status</label>
                     <select x-data="choices($wire.entangle('form.status'), '---', '', 'auto', false)">
                         <option value="activated">Ativo</option>
                         <option value="disabled">Desativado</option>
@@ -143,7 +143,7 @@
 
                 <!-- SENHA -->
                 <div class="relative col-span-12 md:col-span-6 flex flex-col gap-2" x-data="{ show:false }">
-                    <label class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Senha</label>
+                    <label class="label-input-basic">Senha</label>
                     <div class="relative">
                         <input :type="show ? 'text':'password'" wire:model="form.password" class="input-basic pr-10">
                         <a href="#" @click.prevent="show=!show"
@@ -156,7 +156,7 @@
 
                 <!-- CONFIRMAR SENHA -->
                 <div class="relative col-span-12 md:col-span-6 flex flex-col gap-2" x-data="{ show:false }">
-                    <label class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Confirmar senha</label>
+                    <label class="label-input-basic">Confirmar senha</label>
                     <div class="relative">
                         <input :type="show ? 'text':'password'" wire:model="form.password_confirmation" class="input-basic pr-10">
                         <a href="#" @click.prevent="show=!show"

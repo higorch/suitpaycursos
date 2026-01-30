@@ -21,24 +21,24 @@ class DefaultUserSeeder extends Seeder
             [
                 'email' => 'maria@mail.com',
                 'name' => 'Maria Santos',
-                'role' => 'teacher',
+                'role' => 'creator',
             ],
             [
                 'email' => 'joao@mail.com',
                 'name' => 'João Marcos',
-                'role' => 'teacher',
+                'role' => 'creator',
             ],
             [
                 'email' => 'gustavo@mail.com',
                 'name' => 'Gustavo Silva',
                 'role' => 'student',
-                'teacher_email' => 'maria@mail.com',
+                'creator_email' => 'maria@mail.com',
             ],
             [
                 'email' => 'danilo@mail.com',
                 'name' => 'Danilo Canhoto',
                 'role' => 'student',
-                'teacher_email' => 'joao@mail.com',
+                'creator_email' => 'joao@mail.com',
             ],
         ];
 
@@ -48,11 +48,11 @@ class DefaultUserSeeder extends Seeder
                 continue;
             }
 
-            $teacherId = null;
+            $creatorId = null;
 
-            if (($data['role'] === 'student') && isset($data['teacher_email'])) {
-                $teacher = User::where('email', $data['teacher_email'])->first();
-                $teacherId = $teacher?->id;
+            if (($data['role'] === 'student') && isset($data['creator_email'])) {
+                $creator = User::where('email', $data['creator_email'])->first();
+                $creatorId = $creator?->id;
             }
 
             User::create([
@@ -61,7 +61,7 @@ class DefaultUserSeeder extends Seeder
                 'email' => $data['email'],
                 'name' => $data['name'],
                 'password' => Hash::make('password'),
-                'teacher_id' => $teacherId,
+                'creator_id' => $creatorId,
                 'at' => incrementIfExistDatabase(formatAt($data['name']), 'users', 'at'),
                 'status' => 'activated',
             ]);
@@ -70,21 +70,21 @@ class DefaultUserSeeder extends Seeder
         }
 
         // USUÁRIOS DINÂMICOS (FAKER)
-        $teachers = User::where('role', 'teacher')->get();
+        $creators = User::where('role', 'creator')->get();
 
         // Já existem 5 usuários fixos, vamos criar mais 65
-        User::factory()->count(65)->state(function () use ($teachers) {
+        User::factory()->count(65)->state(function () use ($creators) {
 
             $name = fake()->name();
 
             // Define papel aleatório (maior chance de ser aluno)
-            $role = fake()->randomElement(['student', 'student', 'student', 'teacher']);
+            $role = fake()->randomElement(['student', 'student', 'student', 'creator']);
 
-            $teacherId = null;
+            $creatorId = null;
 
-            if ($role === 'student' && $teachers->isNotEmpty()) {
-                // 80% dos alunos terão professor
-                $teacherId = fake()->boolean(80) ? $teachers->random()->id : null;
+            if ($role === 'student' && $creators->isNotEmpty()) {
+                // 80% dos alunos terão criador
+                $creatorId = fake()->boolean(80) ? $creators->random()->id : null;
             }
 
             return [
@@ -93,7 +93,7 @@ class DefaultUserSeeder extends Seeder
                 'email' => fake()->unique()->safeEmail(),
                 'password' => Hash::make('password'),
                 'role' => $role,
-                'teacher_id' => $teacherId,
+                'creator_id' => $creatorId,
                 'status' => 'activated',
                 'at' => incrementIfExistDatabase(formatAt($name), 'users', 'at'),
             ];

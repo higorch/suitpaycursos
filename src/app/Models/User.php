@@ -23,7 +23,7 @@ class User extends Authenticatable
      * @var list<string>
      */
     protected $fillable = [
-        'teacher_id',
+        'creator_id',
         'name',
         'email',
         'password',
@@ -70,19 +70,19 @@ class User extends Authenticatable
         return $this->morphMany(Attachment::class, 'attachable');
     }
 
-    public function teacher()
+    public function creator()
     {
-        return $this->belongsTo(User::class, 'teacher_id');
+        return $this->belongsTo(User::class, 'creator_id');
     }
 
     public function students()
     {
-        return $this->hasMany(User::class, 'teacher_id')->where('role', 'student');
+        return $this->hasMany(User::class, 'creator_id')->where('role', 'student');
     }
 
     public function courses()
     {
-        return $this->hasMany(Course::class, 'teacher_id');
+        return $this->hasMany(Course::class, 'creator_id');
     }
 
     public function enrollments()

@@ -27,7 +27,7 @@ class Index extends Component
         return Course::withoutGlobalScopes([
             CourseScope::class,
         ])->with([
-            'teacher'
+            'creator'
         ])->paginate(25);
     }
 }

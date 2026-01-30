@@ -18,7 +18,6 @@ class ProfileForm extends Form
     public string $password = '';
     public string $password_confirmation = '';
     public string $at = '';
-    public string $status = 'activated';
     public ?string $cpf_cnpj = null;
     public ?string $date_birth = null;
 
@@ -35,7 +34,6 @@ class ProfileForm extends Form
         $this->ulid = $user->ulid;
         $this->name = $user->name;
         $this->email = $user->email;
-        $this->status = $user->status;
         $this->at = $user->at;
         $this->cpf_cnpj = $user->cpf_cnpj ?? '';
         $this->date_birth = $user->date_birth ? Carbon::createFromFormat('Y-m-d', $user->date_birth)->format('d/m/Y') : null;
@@ -66,7 +64,6 @@ class ProfileForm extends Form
             'name' => $this->name,
             'email' => $this->email,
             'role' => Auth::user()->role,
-            'status' => $this->status,
             'at' => $this->at ?: Str::slug($this->name),
             'cpf_cnpj' => sanitizeSpecialCharacters($this->cpf_cnpj, true),
             'date_birth' => $this->date_birth ? Carbon::createFromFormat('d/m/Y', $this->date_birth)->format('Y-m-d')  : null,
@@ -100,7 +97,6 @@ class ProfileForm extends Form
 
         $rules = [
             'name' => ['required'],
-            'status' => ['required', 'in:activated,disabled'],
             'cpf_cnpj' => ['nullable', 'cpf_ou_cnpj'],
             'date_birth' => ['nullable', 'date'],
             'at' => [

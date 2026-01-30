@@ -50,7 +50,7 @@
 
                 <!-- NOME DO CURSO -->
                 <div class="relative col-span-12 md:col-span-12 flex flex-col gap-2">
-                    <label class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Nome do curso</label>
+                    <label class="label-input-basic">Nome do curso</label>
                     <input type="text" wire:model="form.name" class="input-basic">
                     @error('form.name') <span @mouseover="$el.remove()" class="input-error full label">{{ $message }}</span> @enderror
                 </div>
@@ -64,7 +64,7 @@
 
                 <!-- MODALIDADE -->
                 <div class="relative col-span-12 md:col-span-3 flex flex-col gap-2">
-                    <label class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Modalidade</label>
+                    <label class="label-input-basic">Modalidade</label>
                     <select x-data="choices($wire.entangle('form.delivery_mode'), '---', '', 'auto', false)">
                         <option value="online">On-Line</option>
                         <option value="in-person">Presencial</option>
@@ -75,7 +75,7 @@
 
                 <!-- STATUS -->
                 <div class="relative col-span-12 md:col-span-3 flex flex-col gap-2">
-                    <label class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Status</label>
+                    <label class="label-input-basic">Status</label>
                     <select x-data="choices($wire.entangle('form.status'), '---', '', 'auto', false)">
                         <option value="activated">Ativo</option>
                         <option value="disabled">Desativado</option>
@@ -85,7 +85,7 @@
 
                 <!-- DATA LIMITE MATRICULA -->
                 <div class="relative col-span-12 md:col-span-3 flex flex-col gap-2">
-                    <label class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Data de limite matrícula</label>
+                    <label class="label-input-basic">Data de limite matrícula</label>
                     <input type="text" wire:model="form.enrollment_deadline" class="input-basic" placeholder="__/__/____" x-data="{
                             init() {
                                 const today = new Date();
@@ -111,7 +111,7 @@
 
                 <!-- NUMERO MAXIMO DE MATRICULAS ABERTAS -->
                 <div class="relative col-span-12 md:col-span-3 flex flex-col gap-2">
-                    <label class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Nº máx. de matrículas abertas</label>
+                    <label class="label-input-basic">Nº máx. de matrículas abertas</label>
                     <input type="text" wire:model="form.max_enrollments" class="input-basic" x-data="mask" data-inputmask="'alias': 'numeric', 'digits': 0, 'rightAlign': false, 'allowMinus': false">
                     @error('form.max_enrollments') <span @mouseover="$el.remove()" class="input-error full label">{{ $message }}</span> @enderror
                 </div>
@@ -157,7 +157,7 @@
 
                 <!-- URL VIDEO APRESENTAÇÃO -->
                 <div class="relative col-span-12 md:col-span-6 flex flex-col gap-2">
-                    <label class="text-xs font-semibold text-gray-500 uppercase tracking-wider">URL Video apresentação (youtube, vimeo)</label>
+                    <label class="label-input-basic">URL Video apresentação (youtube, vimeo)</label>
                     <input type="text" wire:model="form.presentation_video_url" class="input-basic" placeholder="ex: https://www.youtube.com/watch?v=abcd1234">
                     @error('form.presentation_video_url') <span @mouseover="$el.remove()" class="input-error full label">{{ $message }}</span> @enderror
                 </div>
