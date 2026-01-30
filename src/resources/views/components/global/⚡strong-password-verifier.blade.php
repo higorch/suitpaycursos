@@ -10,7 +10,7 @@ new class extends Component
 };
 ?>
 
-<!-- SEGURANÇA DA SENHA -->
+{{-- SEGURANÇA DA SENHA --}}
 <div x-data="{
     get password() { return $wire.password || '' },
     get hasMin() { return this.password.length >= 8 },

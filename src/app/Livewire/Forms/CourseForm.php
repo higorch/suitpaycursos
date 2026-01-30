@@ -100,7 +100,7 @@ class CourseForm extends Form
             'presentation_video_url' => ['required', 'url'],
             'status' => ['required', 'in:activated,disabled'],
             'delivery_mode' => ['required', 'in:online,in-person,hybrid'],
-            'max_enrollments' => ['nullable', 'integer'],
+            'max_enrollments' => ['nullable', 'integer', 'gt:0'],
             'enrollment_deadline' => ['required', 'date'],
             'slug' => [
                 'required',

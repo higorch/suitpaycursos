@@ -134,6 +134,13 @@ Acessar container da aplicação:
 docker exec -it app bash
 ```
 
+Rodar os testes:
+
+```bash
+docker exec -it app bash
+php artisan test
+```
+
 ---
 
 ## 📌 Observações
