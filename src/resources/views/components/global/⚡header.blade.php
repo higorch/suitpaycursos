@@ -31,11 +31,11 @@ new class extends Component
             <nav class="hidden md:flex items-center gap-10 text-sm font-medium">
                 @if(request()->routeIs('student.*'))
                     <a href="{{ route('student.catalogs.index') }}" wire:navigate class="flex items-center gap-2 text-gray-500 hover:text-[#33CC33] transition">
-                        <i class="las la-tachometer-alt text-lg"></i> Catalogo
+                        <i class="las la-boxes text-lg"></i> Catálogo
                     </a>
                 @else
                     <a href="{{ route('panel.dashboard.index') }}" wire:navigate class="flex items-center gap-2 text-gray-500 hover:text-[#33CC33] transition">
-                        <i class="las la-boxes text-lg"></i> Catálogo
+                        <i class="las la-tachometer-alt text-lg"></i> Dashboard
                     </a>
                 @endif
 

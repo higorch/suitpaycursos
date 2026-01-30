@@ -42,7 +42,7 @@ class Save extends Component
         $this->resetErrorBag();
     }
 
-    #[Computed()]
+    #[Computed]
     public function pageTitle()
     {
         return $this->form->isEditing() ? 'Editar Aluno' : 'Cadastrar Aluno';
